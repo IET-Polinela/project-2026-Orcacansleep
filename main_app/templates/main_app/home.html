@@ -4,6 +4,31 @@
     <title>Home</title>
 </head>
 <body>
-    <p>Selamat Datang di kota Bandar Lampung</p>
+    <h1>Selamat Datang di kota Bandar Lampung</h1>
+
+    <a href="/add/">Tambah Laporan</a>
+
+    <h2>Daftar Laporan</h2>
+
+    {% if reports %}
+        <ul>
+            {% for report in reports %}
+                <li>
+                    <strong>{{ report.title }}</strong><br>
+                    Kategori: {{ report.category }}<br>
+                    Deskripsi: {{ report.description }}<br>
+                    Lokasi: {{ report.location }}<br>
+                    Status: {{ report.status }}<br>
+                    Dibuat: {{ report.created_at }}<br>
+
+                    <a href="/edit/{{ report.id }}/">Edit</a>
+                    <a href="/delete/{{ report.id }}/">Delete</a>
+                </li>
+                <br>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>Belum ada laporan.</p>
+    {% endif %}
 </body>
 </html>
