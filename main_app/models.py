@@ -1,15 +1,23 @@
 from django.db import models
 
+STATUS_CHOICES = [
+    ('REPORTED', 'Reported'),
+    ('VERIFIED', 'Verified'),
+    ('IN_PROGRESS', 'In Progress'),
+    ('RESOLVED', 'Resolved'),
+]
+
 class Report(models.Model):
-    title = models.CharField(max_length=200)  # Judul laporan
-    category = models.CharField(max_length=100)  # Kategori laporan
-    description = models.TextField()  # Deskripsi laporan
-    location = models.CharField(max_length=200)  # Lokasi laporan
+    title = models.CharField(max_length=200)
+    category = models.CharField(max_length=100)
+    description = models.TextField()
+    location = models.CharField(max_length=200)
     status = models.CharField(
         max_length=20,
-        default='REPORTED',  # Status default
+        choices=STATUS_CHOICES,
+        default='REPORTED'
     )
-    created_at = models.DateTimeField(auto_now_add=True)  # Tanggal pembuatan laporan
+    created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return self.title
