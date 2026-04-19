@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block title %}About | Silent Hill Portal{% endblock %}
+
+{% block content %}
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+        <li class="breadcrumb-item active" aria-current="page">About</li>
+    </ol>
+</nav>
+
+<div class="card shadow-sm">
+    <div class="card-body p-4">
+        <h1 class="page-title mb-3">About</h1>
+        <p class="page-subtitle mb-0">
+            Silent Hill Portal adalah sistem pelaporan masalah kota yang dibuat untuk membantu
+            pencatatan, pemantauan, dan pengelolaan laporan secara terstruktur.
+        </p>
+    </div>
+</div>
+{% endblock %}

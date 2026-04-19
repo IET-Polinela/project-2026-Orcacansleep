@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}Silent Hill Portal{% endblock %}</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
+
+    <style>
+        body {
+            background: #000;
+            color: #e9e9e9;
+            font-family: Arial, sans-serif;
+            min-height: 100vh;
+        }
+
+        .navbar {
+            background-color: rgba(0, 0, 0, 0.96) !important;
+            border-bottom: 1px solid #242424;
+        }
+
+        .navbar-brand {
+            color: #b22222 !important;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+        .nav-link {
+            color: #d1d1d1 !important;
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            color: #b22222 !important;
+        }
+
+        .main-wrapper {
+            min-height: calc(100vh - 140px);
+            padding-top: 28px;
+            padding-bottom: 40px;
+        }
+
+        .page-title {
+            font-size: 2rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: #f5f5f5;
+        }
+
+        .page-subtitle {
+            color: #a9a9a9;
+        }
+
+        .card,
+        .table,
+        .form-control,
+        .form-select,
+        .modal-content {
+            background-color: #111 !important;
+            color: #ededed !important;
+            border-color: #2a2a2a !important;
+        }
+
+        .table thead th {
+            background-color: #171717 !important;
+            color: #f2f2f2 !important;
+            border-color: #2d2d2d !important;
+        }
+
+        .table td,
+        .table th {
+            border-color: #262626 !important;
+            vertical-align: middle;
+        }
+
+        .form-control::placeholder,
+        .form-select::placeholder {
+            color: #888;
+        }
+
+        .form-control:focus,
+        .form-select:focus {
+            border-color: #8b0000;
+            box-shadow: 0 0 0 0.2rem rgba(139, 0, 0, 0.15);
+        }
+
+        .btn-blood {
+            background-color: #8b0000;
+            border-color: #8b0000;
+            color: #fff;
+        }
+
+        .btn-blood:hover {
+            background-color: #a40000;
+            border-color: #a40000;
+            color: #fff;
+        }
+
+        .btn-outline-fog {
+            border: 1px solid #6f6f6f;
+            color: #dddddd;
+        }
+
+        .btn-outline-fog:hover {
+            background-color: #1a1a1a;
+            color: #fff;
+        }
+
+        .breadcrumb {
+            background: transparent;
+            margin-bottom: 1rem;
+        }
+
+        .breadcrumb-item a {
+            color: #b22222;
+            text-decoration: none;
+        }
+
+        .breadcrumb-item.active {
+            color: #d1d1d1;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            border: 1px dashed #444;
+            border-radius: 12px;
+            background-color: #0d0d0d;
+        }
+
+        .footer-text {
+            color: #777;
+            font-size: 0.92rem;
+            text-align: center;
+            padding: 18px 0;
+            border-top: 1px solid #1d1d1d;
+        }
+    </style>
+
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container">
+            <a class="navbar-brand" href="{% url 'home' %}">SILENT HILL PORTAL</a>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.path == '/' %}active{% endif %}" href="{% url 'home' %}">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% if '/reports/' in request.path or '/report/' in request.path or '/add/' in request.path or '/edit/' in request.path or '/delete/' in request.path %}active{% endif %}" href="{% url 'report_list' %}">Reports</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% if '/about/' in request.path %}active{% endif %}" href="{% url 'about' %}">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% if '/contacts/' in request.path %}active{% endif %}" href="{% url 'contact' %}">Contact</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-3">
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags|default:'success' }} alert-dismissible fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert"></button>
+                </div>
+            {% endfor %}
+        {% endif %}
+    </div>
+
+    <main class="main-wrapper">
+        <div class="container">
+            {% block content %}{% endblock %}
+        </div>
+    </main>
+
+    <div class="footer-text">
+        Silent Hill Issue Reporting System
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

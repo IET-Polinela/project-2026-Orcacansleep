@@ -1,13 +1,41 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Contacts</title>
-</head>
-<body>
-    <h1>Kalau mau menghubungi kami, silakan kunjungi halaman ini</h1>
-    <p>Nama : Nazheef</p>
-    <p>Email : Orca.id</p>
-    <p>Alamat : Jl. Pangeran Antasari No. 10, Bandar Lampung</p>
-    <p>Telepon : 08123456789(hanya fiksi)</p>
-</body>
-</html>
+{% extends 'base.html' %}
+
+{% block title %}Contact | Silent Hill Portal{% endblock %}
+
+{% block content %}
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Contact</li>
+    </ol>
+</nav>
+
+<div class="card shadow-sm">
+    <div class="card-body p-4">
+        <h1 class="page-title mb-3">Contact</h1>
+        <p class="page-subtitle mb-4">
+            Jika ingin menghubungi pengelola sistem, silakan gunakan informasi berikut.
+        </p>
+
+        <div class="mb-3">
+            <h5 class="text-secondary">Nama</h5>
+            <p>Nazheef</p>
+        </div>
+
+        <div class="mb-3">
+            <h5 class="text-secondary">Email</h5>
+            <p>Orca.id</p>
+        </div>
+
+        <div class="mb-3">
+            <h5 class="text-secondary">Alamat</h5>
+            <p>Jl. Pangeran Antasari No. 10, Bandar Lampung</p>
+        </div>
+
+        <div class="mb-0">
+            <h5 class="text-secondary">Telepon</h5>
+            <p>08123456789 (hanya fiksi)</p>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,18 +1,66 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Tambah Laporan</title>
-</head>
-<body>
-    <h1>Tambah Laporan Baru</h1>
+{% extends 'base.html' %}
 
-    <form method="POST">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Simpan</button>
-    </form>
+{% block title %}Tambah Laporan | Silent Hill Portal{% endblock %}
 
-    <br>
-    <a href="{% url 'report_list' %}">Kembali ke Home</a>
-</body>
-</html>
+{% block content %}
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+        <li class="breadcrumb-item"><a href="{% url 'report_list' %}">Reports</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Tambah Laporan</li>
+    </ol>
+</nav>
+
+<div class="row justify-content-center">
+    <div class="col-lg-8">
+        <div class="card shadow-sm">
+            <div class="card-body p-4">
+                <h1 class="page-title mb-2">Tambah Laporan</h1>
+                <p class="page-subtitle mb-4">Masukkan data laporan baru ke dalam sistem.</p>
+
+                <form method="POST" id="reportForm">
+                    {% csrf_token %}
+
+                    <div class="mb-3">
+                        <label for="{{ form.title.id_for_label }}" class="form-label">Judul</label>
+                        {{ form.title }}
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="{{ form.category.id_for_label }}" class="form-label">Kategori</label>
+                        {{ form.category }}
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="{{ form.description.id_for_label }}" class="form-label">Deskripsi</label>
+                        {{ form.description }}
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="{{ form.location.id_for_label }}" class="form-label">Lokasi</label>
+                        {{ form.location }}
+                    </div>
+
+                    <div class="d-flex flex-wrap gap-2">
+                        <button type="submit" class="btn btn-blood" id="submitBtn">
+                            <span id="submitText">Simpan Laporan</span>
+                        </button>
+                        <a href="{% url 'report_list' %}" class="btn btn-outline-fog">Kembali</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.getElementById('reportForm').addEventListener('submit', function() {
+        const btn = document.getElementById('submitBtn');
+        const text = document.getElementById('submitText');
+        btn.disabled = true;
+        text.textContent = 'Loading...';
+    });
+</script>
+{% endblock %}

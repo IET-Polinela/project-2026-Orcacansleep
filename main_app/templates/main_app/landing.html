@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block title %}Home | Silent Hill Portal{% endblock %}
+
+{% block content %}
+<div class="d-flex flex-column justify-content-center align-items-center text-center" style="min-height: 70vh;">
+    <h1 class="page-title display-3 mb-3">Silent Hill Portal</h1>
+    <p class="page-subtitle mb-4" style="max-width: 700px;">
+        Sistem pelaporan masalah kota dengan nuansa gelap, rapi, dan terstruktur
+        untuk memantau laporan dari tahap awal sampai selesai.
+    </p>
+
+    <div class="d-flex flex-wrap justify-content-center gap-2">
+        <a href="{% url 'report_list' %}" class="btn btn-blood btn-lg">
+            <i class="bi bi-journal-text me-1"></i> Lihat Reports
+        </a>
+        <a href="{% url 'report_add' %}" class="btn btn-outline-fog btn-lg">
+            <i class="bi bi-plus-circle me-1"></i> Tambah Laporan
+        </a>
+    </div>
+</div>
+{% endblock %}
