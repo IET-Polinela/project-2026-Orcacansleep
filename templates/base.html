@@ -138,6 +138,14 @@
             padding: 18px 0;
             border-top: 1px solid #1d1d1d;
         }
+
+        .navbar-username {
+            color: #9f9f9f !important;
+        }
+
+        .logout-form {
+            margin: 0;
+        }
     </style>
 
     {% block extra_css %}{% endblock %}
@@ -153,7 +161,7 @@
             </button>
 
             <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
+                <ul class="navbar-nav ms-auto align-items-lg-center">
                     <li class="nav-item">
                         <a class="nav-link {% if request.path == '/' %}active{% endif %}" href="{% url 'home' %}">Home</a>
                     </li>
@@ -166,6 +174,25 @@
                     <li class="nav-item">
                         <a class="nav-link {% if '/contacts/' in request.path %}active{% endif %}" href="{% url 'contact' %}">Contact</a>
                     </li>
+
+                    {% if user.is_authenticated %}
+                        <li class="nav-item">
+                            <span class="nav-link navbar-username">Hi, {{ user.username }}</span>
+                        </li>
+                        <li class="nav-item ms-lg-2">
+                            <form method="POST" action="{% url 'logout' %}" class="logout-form">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-outline-fog btn-sm">Logout</button>
+                            </form>
+                        </li>
+                    {% else %}
+                        <li class="nav-item">
+                            <a class="nav-link {% if '/accounts/login/' in request.path %}active{% endif %}" href="{% url 'login' %}">Login</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {% if '/accounts/register/' in request.path %}active{% endif %}" href="{% url 'register' %}">Register</a>
+                        </li>
+                    {% endif %}
                 </ul>
             </div>
         </div>

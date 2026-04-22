@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block title %}Login | Silent Hill Portal{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-6">
+        <div class="card shadow-sm">
+            <div class="card-body p-4">
+                <h1 class="page-title mb-2">Login</h1>
+                <p class="page-subtitle mb-4">Masuk ke dalam sistem untuk melanjutkan akses.</p>
+
+                <form method="POST">
+                    {% csrf_token %}
+
+                    <div class="mb-3">
+                        <label class="form-label">Username</label>
+                        {{ form.username }}
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="form-label">Password</label>
+                        {{ form.password }}
+                    </div>
+
+                    <div class="d-flex flex-wrap gap-2">
+                        <button type="submit" class="btn btn-blood">Login</button>
+                        <a href="{% url 'register' %}" class="btn btn-outline-fog">Register</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
