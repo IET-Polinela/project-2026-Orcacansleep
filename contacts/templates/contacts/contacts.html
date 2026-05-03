@@ -2,6 +2,79 @@
 
 {% block title %}Contact | Silent Hill Portal{% endblock %}
 
+{% block extra_css %}
+<style>
+    .contact-hero {
+        background: linear-gradient(135deg, #111111, #1a1a1a);
+        border: 1px solid #242424;
+        border-radius: 20px;
+        overflow: hidden;
+    }
+
+    .contact-icon-wrap {
+        width: 82px;
+        height: 82px;
+        border-radius: 50%;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        background: rgba(178, 34, 34, 0.12);
+        border: 1px solid rgba(178, 34, 34, 0.35);
+    }
+
+    .contact-info-card {
+        background: #141414;
+        border: 1px solid #2a2a2a;
+        border-radius: 18px;
+        height: 100%;
+        transition: 0.25s ease;
+    }
+
+    .contact-info-card:hover {
+        transform: translateY(-4px);
+        border-color: #3a3a3a;
+        box-shadow: 0 12px 24px rgba(0, 0, 0, 0.25);
+    }
+
+    .contact-badge-icon {
+        width: 48px;
+        height: 48px;
+        border-radius: 14px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        background: rgba(178, 34, 34, 0.14);
+        color: #b22222;
+        font-size: 1.2rem;
+        flex-shrink: 0;
+    }
+
+    .contact-label {
+        color: #8d8d8d;
+        font-size: 0.9rem;
+        margin-bottom: 4px;
+    }
+
+    .contact-value {
+        color: #f2f2f2;
+        font-size: 1.05rem;
+        font-weight: 600;
+        margin-bottom: 0;
+    }
+
+    .contact-note-card {
+        background: #101010;
+        border: 1px solid #262626;
+        border-radius: 18px;
+    }
+
+    .contact-note-card p,
+    .contact-note-card li {
+        color: #b4b4b4;
+    }
+</style>
+{% endblock %}
+
 {% block content %}
 <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
@@ -10,31 +83,110 @@
     </ol>
 </nav>
 
-<div class="card shadow-sm">
-    <div class="card-body p-4">
-        <h1 class="page-title mb-3">Contact</h1>
-        <p class="page-subtitle mb-4">
-            Jika ingin menghubungi pengelola sistem, silakan gunakan informasi berikut.
-        </p>
-
-        <div class="mb-3">
-            <h5 class="text-secondary">Nama</h5>
-            <p>Nazheef</p>
+<div class="contact-hero shadow-sm mb-4">
+    <div class="card-body p-4 p-lg-5">
+        <div class="row align-items-center g-4">
+            <div class="col-lg-8">
+                <h1 class="page-title mb-3">Contact</h1>
+                <p class="page-subtitle mb-0">
+                    Jika ingin menghubungi pengelola sistem, silakan gunakan informasi berikut.
+                    Halaman ini dirancang agar informasi kontak lebih jelas, rapi, dan mudah dibaca.
+                </p>
+            </div>
+            <div class="col-lg-4 text-lg-end text-center">
+                <div class="contact-icon-wrap">
+                    <i class="bi bi-person-lines-fill text-danger fs-2"></i>
+                </div>
+            </div>
         </div>
+    </div>
+</div>
 
-        <div class="mb-3">
-            <h5 class="text-secondary">Email</h5>
-            <p>Orca.id</p>
+<div class="row g-4">
+    <div class="col-md-6 col-xl-3">
+        <div class="contact-info-card p-4">
+            <div class="d-flex align-items-start gap-3">
+                <div class="contact-badge-icon">
+                    <i class="bi bi-person-fill"></i>
+                </div>
+                <div>
+                    <div class="contact-label">Nama</div>
+                    <p class="contact-value">Nazheef</p>
+                </div>
+            </div>
         </div>
+    </div>
 
-        <div class="mb-3">
-            <h5 class="text-secondary">Alamat</h5>
-            <p>Jl. Pangeran Antasari No. 10, Bandar Lampung</p>
+    <div class="col-md-6 col-xl-3">
+        <div class="contact-info-card p-4">
+            <div class="d-flex align-items-start gap-3">
+                <div class="contact-badge-icon">
+                    <i class="bi bi-envelope-fill"></i>
+                </div>
+                <div>
+                    <div class="contact-label">Email</div>
+                    <p class="contact-value">Orca.id</p>
+                </div>
+            </div>
         </div>
+    </div>
 
-        <div class="mb-0">
-            <h5 class="text-secondary">Telepon</h5>
-            <p>08123456789 (hanya fiksi)</p>
+    <div class="col-md-6 col-xl-3">
+        <div class="contact-info-card p-4">
+            <div class="d-flex align-items-start gap-3">
+                <div class="contact-badge-icon">
+                    <i class="bi bi-telephone-fill"></i>
+                </div>
+                <div>
+                    <div class="contact-label">Telepon</div>
+                    <p class="contact-value">08123456789</p>
+                    <small class="text-secondary">(hanya fiksi)</small>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6 col-xl-3">
+        <div class="contact-info-card p-4">
+            <div class="d-flex align-items-start gap-3">
+                <div class="contact-badge-icon">
+                    <i class="bi bi-geo-alt-fill"></i>
+                </div>
+                <div>
+                    <div class="contact-label">Alamat</div>
+                    <p class="contact-value">Jl. Pangeran Antasari No. 10, Bandar Lampung</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row g-4 mt-1">
+    <div class="col-lg-7">
+        <div class="contact-note-card p-4 h-100">
+            <h4 class="text-light mb-3">
+                <i class="bi bi-chat-left-dots-fill text-danger me-2"></i>
+                Informasi Tambahan
+            </h4>
+            <p class="mb-0">
+                Halaman contact ini digunakan sebagai media informasi pengelola sistem.
+                Jika terdapat kendala pada portal, pengguna dapat menggunakan data kontak
+                yang tersedia untuk memperoleh bantuan lebih lanjut.
+            </p>
+        </div>
+    </div>
+
+    <div class="col-lg-5">
+        <div class="contact-note-card p-4 h-100">
+            <h4 class="text-light mb-3">
+                <i class="bi bi-clock-history text-danger me-2"></i>
+                Jam Operasional
+            </h4>
+            <ul class="mb-0 ps-3">
+                <li>Senin - Jumat: 08.00 - 16.00</li>
+                <li>Sabtu: 09.00 - 13.00</li>
+                <li>Minggu: Tutup</li>
+            </ul>
         </div>
     </div>
 </div>

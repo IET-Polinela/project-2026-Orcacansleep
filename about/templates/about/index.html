@@ -1,6 +1,83 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %}About | Silent Hill Portal{% endblock %}
+
+{% block extra_css %}
+<style>
+    .about-hero {
+        background: linear-gradient(135deg, #111111, #1a1a1a);
+        border: 1px solid #262626;
+        border-radius: 20px;
+        overflow: hidden;
+    }
+
+    .about-image {
+        width: 100%;
+        height: 100%;
+        min-height: 320px;
+        object-fit: cover;
+        border-radius: 16px;
+        border: 1px solid #2d2d2d;
+    }
+
+    .about-card {
+        background: #121212;
+        border: 1px solid #262626;
+        border-radius: 18px;
+        transition: all 0.25s ease;
+        height: 100%;
+    }
+
+    .about-card:hover {
+        transform: translateY(-4px);
+        border-color: #3a3a3a;
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.25);
+    }
+
+    .about-icon {
+        width: 52px;
+        height: 52px;
+        border-radius: 14px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        background: rgba(178, 34, 34, 0.14);
+        color: #b22222;
+        font-size: 1.3rem;
+        margin-bottom: 14px;
+    }
+
+    .about-subtitle {
+        color: #b5b5b5;
+        line-height: 1.8;
+    }
+
+    .about-feature-title {
+        color: #f5f5f5;
+        font-weight: 600;
+        margin-bottom: 8px;
+    }
+
+    .about-feature-text {
+        color: #aaaaaa;
+        margin-bottom: 0;
+    }
+
+    .about-highlight {
+        background: #101010;
+        border: 1px solid #272727;
+        border-left: 4px solid #b22222;
+        border-radius: 16px;
+    }
+
+    .about-highlight p {
+        color: #c5c5c5;
+        margin-bottom: 0;
+        line-height: 1.8;
+    }
+</style>
+{% endblock %}
 
 {% block content %}
 <nav aria-label="breadcrumb">
@@ -10,13 +87,79 @@
     </ol>
 </nav>
 
-<div class="card shadow-sm">
-    <div class="card-body p-4">
-        <h1 class="page-title mb-3">About</h1>
-        <p class="page-subtitle mb-0">
-            Silent Hill Portal adalah sistem pelaporan masalah kota yang dibuat untuk membantu
-            pencatatan, pemantauan, dan pengelolaan laporan secara terstruktur.
-        </p>
+<div class="about-hero p-4 p-lg-5 mb-4">
+    <div class="row align-items-center g-4">
+        <div class="col-lg-7">
+            <h1 class="page-title mb-3">About</h1>
+            <p class="about-subtitle mb-3">
+                Silent Hill Portal merupakan sistem pelaporan masalah kota yang dirancang
+                untuk membantu masyarakat menyampaikan laporan secara lebih teratur, cepat,
+                dan mudah dipantau.
+            </p>
+            <p class="about-subtitle mb-0">
+                Melalui portal ini, pengguna dapat melihat daftar laporan, memantau status penanganan,
+                serta membantu proses pengelolaan informasi agar setiap permasalahan yang muncul
+                dapat terdokumentasi dengan lebih jelas.
+            </p>
+        </div>
+        <div class="col-lg-5">
+            <img src="{% static 'images/about-silent-hill.jpg' %}" alt="Silent Hill Portal"
+                 class="about-image shadow-sm">
+        </div>
     </div>
+</div>
+
+<div class="row g-4 mb-4">
+    <div class="col-md-4">
+        <div class="about-card p-4">
+            <div class="about-icon">
+                <i class="bi bi-clipboard-data-fill"></i>
+            </div>
+            <h5 class="about-feature-title">Pencatatan Laporan</h5>
+            <p class="about-feature-text">
+                Sistem ini memudahkan pengguna dalam mencatat berbagai persoalan kota
+                seperti lampu jalan mati, jalan rusak, sampah, dan masalah fasilitas umum lainnya.
+            </p>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="about-card p-4">
+            <div class="about-icon">
+                <i class="bi bi-search-heart-fill"></i>
+            </div>
+            <h5 class="about-feature-title">Pemantauan Status</h5>
+            <p class="about-feature-text">
+                Setiap laporan dapat dipantau perkembangannya melalui status yang tersedia,
+                sehingga informasi penanganan menjadi lebih terbuka dan mudah dipahami.
+            </p>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="about-card p-4">
+            <div class="about-icon">
+                <i class="bi bi-shield-check"></i>
+            </div>
+            <h5 class="about-feature-title">Pengelolaan Terstruktur</h5>
+            <p class="about-feature-text">
+                Portal ini membantu admin dalam mengelola data laporan secara lebih rapi,
+                mulai dari verifikasi, pembaruan status, hingga penyelesaian laporan.
+            </p>
+        </div>
+    </div>
+</div>
+
+<div class="about-highlight p-4">
+    <h4 class="text-light mb-3">
+        <i class="bi bi-info-circle-fill text-danger me-2"></i>
+        Tujuan Sistem
+    </h4>
+    <p>
+        Silent Hill Portal dibuat bukan hanya untuk menampilkan data laporan, tetapi juga untuk
+        mendukung alur pelaporan yang lebih tertib. Dengan adanya sistem ini, masyarakat memperoleh
+        sarana penyampaian informasi, sementara pengelola dapat melakukan pemrosesan laporan
+        dengan lebih sistematis.
+    </p>
 </div>
 {% endblock %}

@@ -1,0 +1,190 @@
+{% extends 'base.html' %}
+
+{% block title %}Dashboard | Silent Hill Portal{% endblock %}
+
+{% block content %}
+<div class="mb-4">
+    <h1 class="page-title mb-2">Dashboard</h1>
+    <p class="page-subtitle mb-0">
+        Ringkasan statistik laporan kota secara visual dan dinamis.
+    </p>
+</div>
+
+<div class="row g-4 mb-4">
+    <div class="col-lg-5">
+        <div class="card shadow-sm h-100">
+            <div class="card-body">
+                <h5 class="mb-3">Distribusi Status Laporan</h5>
+                <canvas id="statusChart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-7">
+        <div class="card shadow-sm h-100">
+            <div class="card-body">
+                <h5 class="mb-3">Distribusi Kategori Laporan</h5>
+                <canvas id="categoryChart"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row g-4">
+    <div class="col-lg-6">
+        <div class="card shadow-sm h-100">
+            <div class="card-body">
+                <h5 class="mb-3">5 Laporan Terakhir - REPORTED</h5>
+                <div class="table-responsive">
+                    <table class="table table-dark table-hover align-middle mb-0">
+                        <thead>
+                            <tr>
+                                <th>Judul</th>
+                                <th>Kategori</th>
+                                <th>Lokasi</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="reportedTableBody">
+                            <tr>
+                                <td colspan="4" class="text-center text-secondary">Memuat data...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-6">
+        <div class="card shadow-sm h-100">
+            <div class="card-body">
+                <h5 class="mb-3">5 Laporan Terakhir - RESOLVED</h5>
+                <div class="table-responsive">
+                    <table class="table table-dark table-hover align-middle mb-0">
+                        <thead>
+                            <tr>
+                                <th>Judul</th>
+                                <th>Kategori</th>
+                                <th>Lokasi</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="resolvedTableBody">
+                            <tr>
+                                <td colspan="4" class="text-center text-secondary">Memuat data...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    fetch('/dashboard/api/stats/')
+        .then(response => response.json())
+        .then(data => {
+            console.log('Dashboard JSON:', data);
+
+            const statusCtx = document.getElementById('statusChart').getContext('2d');
+            new Chart(statusCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: data.status_labels,
+                    datasets: [{
+                        data: data.status_values,
+                        backgroundColor: [
+                            '#6c757d',
+                            '#0d6efd',
+                            '#ffc107',
+                            '#198754'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    plugins: {
+                        legend: {
+                            labels: {
+                                color: '#e9e9e9'
+                            }
+                        }
+                    }
+                }
+            });
+
+            const categoryCtx = document.getElementById('categoryChart').getContext('2d');
+            new Chart(categoryCtx, {
+                type: 'bar',
+                data: {
+                    labels: data.category_labels,
+                    datasets: [{
+                        label: 'Jumlah Laporan',
+                        data: data.category_values,
+                        backgroundColor: '#8b0000',
+                        borderColor: '#a40000',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        x: {
+                            ticks: { color: '#e9e9e9' },
+                            grid: { color: '#2a2a2a' }
+                        },
+                        y: {
+                            beginAtZero: true,
+                            ticks: { color: '#e9e9e9' },
+                            grid: { color: '#2a2a2a' }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            labels: {
+                                color: '#e9e9e9'
+                            }
+                        }
+                    }
+                }
+            });
+
+            const reportedTableBody = document.getElementById('reportedTableBody');
+            reportedTableBody.innerHTML = '';
+
+            data.latest_reported.forEach(report => {
+                reportedTableBody.innerHTML += `
+                    <tr>
+                        <td>${report.title}</td>
+                        <td>${report.category}</td>
+                        <td>${report.location}</td>
+                        <td><span class="badge bg-secondary">${report.status}</span></td>
+                    </tr>
+                `;
+            });
+
+            const resolvedTableBody = document.getElementById('resolvedTableBody');
+            resolvedTableBody.innerHTML = '';
+
+            data.latest_resolved.forEach(report => {
+                resolvedTableBody.innerHTML += `
+                    <tr>
+                        <td>${report.title}</td>
+                        <td>${report.category}</td>
+                        <td>${report.location}</td>
+                        <td><span class="badge bg-success">${report.status}</span></td>
+                    </tr>
+                `;
+            });
+        })
+        .catch(error => {
+            console.error('Gagal mengambil data dashboard:', error);
+        });
+});
+</script>
+{% endblock %}

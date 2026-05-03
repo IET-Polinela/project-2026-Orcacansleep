@@ -42,7 +42,10 @@ INSTALLED_APPS = [
     'about',
     'contacts',
     'usermanagement_24782024',
+    'dashboard_24782024',
 ]
+
+AUTH_USER_MODEL = 'usermanagement_24782024.CustomUser'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -88,7 +91,7 @@ DATABASES = {
     }
 }
 
-AUTH_USER_MODEL = 'usermanagement_24782024.CustomUser'
+
 
 # Password validation
 # https://docs.djangoproject.com/en/6.0/ref/settings/#auth-password-validators
