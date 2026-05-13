@@ -306,7 +306,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         modal.show();
 
-        fetch(`/api/report/${reportId}/`)
+        fetch(`/ajax/report/${reportId}/`)
             .then(response => response.json())
             .then(data => {
                 document.getElementById('modalTitle').textContent = data.title;
