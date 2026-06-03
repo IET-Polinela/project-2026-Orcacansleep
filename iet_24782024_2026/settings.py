@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'usermanagement_24782024',
     'dashboard_24782024',
     'rest_framework',
+    'rest_framework_simplejwt',
 ]
 
 AUTH_USER_MODEL = 'usermanagement_24782024.CustomUser'
@@ -129,3 +130,15 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
 
 STATIC_URL = 'static/'
+
+
+REST_FRAMEWORK = {
+    'DEFAULT_RENDERER_CLASSES': [
+        'rest_framework.renderers.JSONRenderer',
+        'rest_framework.renderers.BrowsableAPIRenderer',
+    ],
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+    )
+}
