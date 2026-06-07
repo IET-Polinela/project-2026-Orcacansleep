@@ -16,7 +16,9 @@ const routes = {
                         <form id="loginForm">
 
                             <div class="mb-3">
-                                <label class="form-label">Username</label>
+                                <label class="form-label">
+                                    Username
+                                </label>
 
                                 <input
                                     type="text"
@@ -26,7 +28,9 @@ const routes = {
                             </div>
 
                             <div class="mb-3">
-                                <label class="form-label">Password</label>
+                                <label class="form-label">
+                                    Password
+                                </label>
 
                                 <input
                                     type="password"
@@ -67,8 +71,19 @@ const routes = {
 
                         <hr>
 
-                        <button class="btn btn-primary w-100 mb-2">
+                        <button
+                            class="btn btn-primary w-100 mb-2">
+
                             Laporan Saya
+
+                        </button>
+
+                        <button
+                            id="logoutBtn"
+                            class="btn btn-outline-danger w-100">
+
+                            Logout
+
                         </button>
 
                     </div>
@@ -87,6 +102,12 @@ const routes = {
 
                         <p>
                             Selamat datang di Portal Warga.
+                        </p>
+
+                        <p class="text-muted">
+                            Portal ini digunakan untuk
+                            mengelola laporan warga
+                            berbasis REST API dan JWT.
                         </p>
 
                     </div>
@@ -117,22 +138,53 @@ const routes = {
     `
 };
 
+function setupLogoutButton() {
+
+    const logoutBtn =
+        document.getElementById("logoutBtn");
+
+    if (!logoutBtn) return;
+
+    logoutBtn.addEventListener("click", function () {
+
+        localStorage.removeItem("access_token");
+        localStorage.removeItem("refresh_token");
+
+        alert("Logout berhasil");
+
+        window.location.hash = "#login";
+
+    });
+
+}
+
 function handleRouting() {
 
     const hash =
-        window.location.hash || '#login';
+        window.location.hash || "#login";
 
-    document.getElementById('app-content').innerHTML =
-        routes[hash] || routes['#login'];
+    document.getElementById("app-content").innerHTML =
+        routes[hash] || routes["#login"];
 
     if (
-        hash === '#login' &&
-        typeof setupLoginForm === 'function'
+        hash === "#login" &&
+        typeof setupLoginForm === "function"
     ) {
         setupLoginForm();
     }
 
+    if (hash === "#dashboard") {
+        setupLogoutButton();
+    }
+
 }
 
-window.addEventListener('hashchange', handleRouting);
-window.addEventListener('DOMContentLoaded', handleRouting);
+window.addEventListener(
+    "hashchange",
+    handleRouting
+);
+
+window.addEventListener(
+    "DOMContentLoaded",
+    handleRouting
+);
