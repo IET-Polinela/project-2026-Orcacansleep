@@ -14,6 +14,10 @@ function setupLoginForm() {
         const password =
             document.getElementById("loginPassword").value;
 
+        const btnLogin = form.querySelector("button[type='submit']");
+        btnLogin.disabled = true;
+        btnLogin.textContent = "Memproses...";
+
         try {
 
             const response = await requestAPI(
@@ -39,13 +43,19 @@ function setupLoginForm() {
                     data.refresh
                 );
 
-                alert("Login berhasil!");
+                localStorage.setItem(
+                    "username",
+                    username
+                );
 
                 window.location.hash = "#dashboard";
 
             } else {
 
                 alert("Username atau Password salah.");
+
+                btnLogin.disabled = false;
+                btnLogin.textContent = "Login";
 
             }
 
@@ -54,6 +64,9 @@ function setupLoginForm() {
             console.error(error);
 
             alert("Gagal terhubung ke server.");
+
+            btnLogin.disabled = false;
+            btnLogin.textContent = "Login";
 
         }
 
