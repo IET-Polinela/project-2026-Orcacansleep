@@ -1,0 +1,13 @@
+{% if status == 'DRAFT' %}
+    <span class="badge bg-secondary">Draft</span>
+{% elif status == 'REPORTED' %}
+    <span class="badge bg-secondary">Reported</span>
+{% elif status == 'VERIFIED' %}
+    <span class="badge bg-primary">Verified</span>
+{% elif status == 'IN_PROGRESS' %}
+    <span class="badge bg-warning text-dark">In Progress</span>
+{% elif status == 'RESOLVED' %}
+    <span class="badge bg-success">Resolved</span>
+{% else %}
+    <span class="badge bg-dark">{{ status }}</span>
+{% endif %}

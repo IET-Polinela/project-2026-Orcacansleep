@@ -1,75 +1,86 @@
 function setupLoginForm() {
-
     const form = document.getElementById("loginForm");
 
     if (!form) return;
 
     form.addEventListener("submit", async function (event) {
-
         event.preventDefault();
 
-        const username =
-            document.getElementById("loginUsername").value;
-
-        const password =
-            document.getElementById("loginPassword").value;
-
+        const usernameInput = document.getElementById("loginUsername");
+        const passwordInput = document.getElementById("loginPassword");
         const btnLogin = form.querySelector("button[type='submit']");
-        btnLogin.disabled = true;
-        btnLogin.textContent = "Memproses...";
+
+        const username = usernameInput.value.trim();
+        const password = passwordInput.value;
+
+        if (!username || !password) {
+            showToast("Username dan password wajib diisi.", "warning");
+            return;
+        }
+
+        setButtonLoading(btnLogin, true, "Memproses...");
 
         try {
-
             const response = await requestAPI(
                 "/api/token/",
                 "POST",
-                {
-                    username,
-                    password
-                }
+                { username, password }
             );
 
-            const data = await response.json();
+            const data = await parseResponseJSON(response);
 
-            if (response.status === 200) {
+            if (response.status === 200 && data.access && data.refresh) {
+                saveAuthData(data.access, data.refresh, username);
+                await fetchCurrentProfile();
 
-                localStorage.setItem(
-                    "access_token",
-                    data.access
-                );
+                showToast("Login berhasil. Dashboard dimuat.", "success");
 
-                localStorage.setItem(
-                    "refresh_token",
-                    data.refresh
-                );
+                setTimeout(function () {
+                    window.location.hash = "#dashboard";
+                }, 300);
 
-                localStorage.setItem(
-                    "username",
-                    username
-                );
-
-                window.location.hash = "#dashboard";
-
-            } else {
-
-                alert("Username atau Password salah.");
-
-                btnLogin.disabled = false;
-                btnLogin.textContent = "Login";
-
+                return;
             }
 
+            showToast("Username atau password salah.", "danger");
+            setButtonLoading(btnLogin, false, "Login");
+
         } catch (error) {
-
-            console.error(error);
-
-            alert("Gagal terhubung ke server.");
-
-            btnLogin.disabled = false;
-            btnLogin.textContent = "Login";
-
+            console.error("Login error:", error);
+            showToast("Gagal terhubung ke server.", "danger");
+            setButtonLoading(btnLogin, false, "Login");
         }
-
     });
+}
 
+function setupLoginNotice() {
+    const notice = sessionStorage.getItem("login_notice");
+
+    if (!notice) return;
+
+    sessionStorage.removeItem("login_notice");
+    showToast(notice, "warning");
+}
+
+function logoutUser() {
+    clearAuthData();
+    showToast("Logout berhasil.", "success");
+    window.location.hash = "#login";
+}
+
+function setButtonLoading(button, isLoading, loadingText = "Memproses...") {
+    if (!button) return;
+
+    if (isLoading) {
+        button.dataset.originalText = button.innerHTML;
+        button.disabled = true;
+        button.innerHTML = `
+            <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+            ${loadingText}
+        `;
+        return;
+    }
+
+    button.disabled = false;
+    button.innerHTML = button.dataset.originalText || loadingText;
 }

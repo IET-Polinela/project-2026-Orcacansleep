@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+
+{% block title %}Detail Laporan | Silent Hill Portal{% endblock %}
+
+{% block content %}
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+        <li class="breadcrumb-item"><a href="{% url 'report_list' %}">Reports</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Detail Laporan</li>
+    </ol>
+</nav>
+
+<div class="row justify-content-center">
+    <div class="col-lg-8">
+        <div class="card shadow-sm">
+            <div class="card-body p-4">
+                <h1 class="page-title mb-4">Detail Laporan</h1>
+
+                <div class="mb-3">
+                    <h5 class="text-secondary">Judul</h5>
+                    <p>{{ report.title }}</p>
+                </div>
+
+                <div class="mb-3">
+                    <h5 class="text-secondary">Kategori</h5>
+                    <p>{{ report.category }}</p>
+                </div>
+
+                <div class="mb-3">
+                    <h5 class="text-secondary">Deskripsi</h5>
+                    <p>{{ report.description }}</p>
+                </div>
+
+                <div class="mb-3">
+                    <h5 class="text-secondary">Lokasi</h5>
+                    <p>{{ report.location }}</p>
+                </div>
+
+                <div class="mb-3">
+                    <h5 class="text-secondary">Status</h5>
+                    {% include 'main_app/partials/status_badge.html' with status=report.status %}
+                </div>
+
+                <div class="mb-4">
+                    <h5 class="text-secondary">Dibuat</h5>
+                    <p>{{ report.created_at }}</p>
+                </div>
+
+                <div class="d-flex gap-2 flex-wrap">
+                    {% if user.is_authenticated and user.is_member and not user.is_admin and report.reporter_id == user.id and report.status == 'DRAFT' %}
+                        <a href="{% url 'report_edit' report.pk %}" class="btn btn-info text-dark">Edit</a>
+                    {% endif %}
+
+                    <a href="{% url 'report_list' %}" class="btn btn-outline-fog">Kembali</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
