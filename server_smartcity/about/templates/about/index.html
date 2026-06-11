@@ -1,165 +1,191 @@
 {% extends 'base.html' %}
-{% load static %}
 
 {% block title %}About | Silent Hill Portal{% endblock %}
-
-{% block extra_css %}
-<style>
-    .about-hero {
-        background: linear-gradient(135deg, #111111, #1a1a1a);
-        border: 1px solid #262626;
-        border-radius: 20px;
-        overflow: hidden;
-    }
-
-    .about-image {
-        width: 100%;
-        height: 100%;
-        min-height: 320px;
-        object-fit: cover;
-        border-radius: 16px;
-        border: 1px solid #2d2d2d;
-    }
-
-    .about-card {
-        background: #121212;
-        border: 1px solid #262626;
-        border-radius: 18px;
-        transition: all 0.25s ease;
-        height: 100%;
-    }
-
-    .about-card:hover {
-        transform: translateY(-4px);
-        border-color: #3a3a3a;
-        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.25);
-    }
-
-    .about-icon {
-        width: 52px;
-        height: 52px;
-        border-radius: 14px;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        background: rgba(178, 34, 34, 0.14);
-        color: #b22222;
-        font-size: 1.3rem;
-        margin-bottom: 14px;
-    }
-
-    .about-subtitle {
-        color: #b5b5b5;
-        line-height: 1.8;
-    }
-
-    .about-feature-title {
-        color: #f5f5f5;
-        font-weight: 600;
-        margin-bottom: 8px;
-    }
-
-    .about-feature-text {
-        color: #aaaaaa;
-        margin-bottom: 0;
-    }
-
-    .about-highlight {
-        background: #101010;
-        border: 1px solid #272727;
-        border-left: 4px solid #b22222;
-        border-radius: 16px;
-    }
-
-    .about-highlight p {
-        color: #c5c5c5;
-        margin-bottom: 0;
-        line-height: 1.8;
-    }
-</style>
-{% endblock %}
 
 {% block content %}
 <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+        <li class="breadcrumb-item">
+            <a href="{% url 'home' %}">Home</a>
+        </li>
         <li class="breadcrumb-item active" aria-current="page">About</li>
     </ol>
 </nav>
 
-<div class="about-hero p-4 p-lg-5 mb-4">
-    <div class="row align-items-center g-4">
-        <div class="col-lg-7">
-            <h1 class="page-title mb-3">About</h1>
-            <p class="about-subtitle mb-3">
+<section class="about-hero glass-card">
+    <div class="about-hero-content">
+        <div class="about-hero-text">
+            <span class="hero-kicker">
+                <i class="bi bi-info-circle"></i>
+                About The Portal
+            </span>
+
+            <h1 class="about-title">Silent Hill Portal</h1>
+
+            <p>
                 Silent Hill Portal merupakan sistem pelaporan masalah kota yang dirancang
-                untuk membantu masyarakat menyampaikan laporan secara lebih teratur, cepat,
-                dan mudah dipantau.
+                untuk membantu warga menyampaikan laporan secara teratur, cepat, dan mudah
+                dipantau.
             </p>
-            <p class="about-subtitle mb-0">
-                Melalui portal ini, pengguna dapat melihat daftar laporan, memantau status penanganan,
-                serta membantu proses pengelolaan informasi agar setiap permasalahan yang muncul
-                dapat terdokumentasi dengan lebih jelas.
-            </p>
-        </div>
-        <div class="col-lg-5">
-            <img src="{% static 'images/about-silent-hill.jpg' %}" alt="Silent Hill Portal"
-                 class="about-image shadow-sm">
-        </div>
-    </div>
-</div>
 
-<div class="row g-4 mb-4">
-    <div class="col-md-4">
-        <div class="about-card p-4">
-            <div class="about-icon">
-                <i class="bi bi-clipboard-data-fill"></i>
+            <p>
+                Melalui portal ini, laporan warga dapat dikelola mulai dari tahap draft,
+                reported, verified, in progress, hingga resolved. Sistem ini membantu alur
+                pencatatan dan pemantauan agar setiap permasalahan kota terdokumentasi
+                dengan lebih jelas.
+            </p>
+
+            <div class="about-actions">
+                <a href="{% url 'report_list' %}" class="btn btn-danger">
+                    <i class="bi bi-journal-text"></i>
+                    Lihat Reports
+                </a>
+
+                <a href="{% url 'dashboard' %}" class="btn btn-outline-danger">
+                    <i class="bi bi-bar-chart"></i>
+                    Buka Dashboard
+                </a>
             </div>
-            <h5 class="about-feature-title">Pencatatan Laporan</h5>
-            <p class="about-feature-text">
-                Sistem ini memudahkan pengguna dalam mencatat berbagai persoalan kota
-                seperti lampu jalan mati, jalan rusak, sampah, dan masalah fasilitas umum lainnya.
-            </p>
         </div>
-    </div>
 
-    <div class="col-md-4">
-        <div class="about-card p-4">
-            <div class="about-icon">
-                <i class="bi bi-search-heart-fill"></i>
+        <div class="about-visual">
+            <div class="about-orbit">
+                <span class="orbit-dot orbit-dot-1"></span>
+                <span class="orbit-dot orbit-dot-2"></span>
+                <span class="orbit-dot orbit-dot-3"></span>
+
+                <div class="about-visual-core">
+                    <i class="bi bi-buildings"></i>
+                    <strong>Smart City</strong>
+                    <span>Issue Reporting</span>
+                </div>
             </div>
-            <h5 class="about-feature-title">Pemantauan Status</h5>
-            <p class="about-feature-text">
-                Setiap laporan dapat dipantau perkembangannya melalui status yang tersedia,
-                sehingga informasi penanganan menjadi lebih terbuka dan mudah dipahami.
-            </p>
         </div>
     </div>
+</section>
 
-    <div class="col-md-4">
-        <div class="about-card p-4">
-            <div class="about-icon">
-                <i class="bi bi-shield-check"></i>
+<section class="about-section">
+    <div class="section-header">
+        <h2 class="landing-section-title">Fokus Sistem</h2>
+        <p class="page-subtitle">
+            Portal ini dibuat untuk mendukung proses pelaporan, pemantauan, dan pengelolaan
+            masalah kota secara lebih terstruktur.
+        </p>
+    </div>
+
+    <div class="about-feature-grid">
+        <article class="about-feature-card glass-card">
+            <div class="card-body">
+                <div class="feature-icon">
+                    <i class="bi bi-clipboard-data"></i>
+                </div>
+
+                <h3>Pencatatan Laporan</h3>
+
+                <p>
+                    Warga dapat mencatat berbagai persoalan kota seperti jalan rusak,
+                    lampu jalan mati, sampah, drainase, dan masalah fasilitas umum lainnya.
+                </p>
             </div>
-            <h5 class="about-feature-title">Pengelolaan Terstruktur</h5>
-            <p class="about-feature-text">
-                Portal ini membantu admin dalam mengelola data laporan secara lebih rapi,
-                mulai dari verifikasi, pembaruan status, hingga penyelesaian laporan.
-            </p>
+        </article>
+
+        <article class="about-feature-card glass-card">
+            <div class="card-body">
+                <div class="feature-icon">
+                    <i class="bi bi-search"></i>
+                </div>
+
+                <h3>Pemantauan Status</h3>
+
+                <p>
+                    Setiap laporan memiliki status yang dapat dipantau sehingga pengguna
+                    dapat memahami perkembangan penanganan laporan dengan lebih jelas.
+                </p>
+            </div>
+        </article>
+
+        <article class="about-feature-card glass-card">
+            <div class="card-body">
+                <div class="feature-icon">
+                    <i class="bi bi-shield-check"></i>
+                </div>
+
+                <h3>Pengelolaan Admin</h3>
+
+                <p>
+                    Admin dapat memverifikasi laporan, memproses laporan, dan menyelesaikan
+                    laporan tanpa mengubah isi laporan yang dibuat oleh warga.
+                </p>
+            </div>
+        </article>
+    </div>
+</section>
+
+<section class="about-section">
+    <div class="about-highlight glass-card">
+        <div class="card-body">
+            <div class="about-highlight-icon">
+                <i class="bi bi-bullseye"></i>
+            </div>
+
+            <div>
+                <span class="modal-kicker">Tujuan Sistem</span>
+
+                <h2>Membuat pelaporan kota lebih tertib dan mudah dipantau.</h2>
+
+                <p>
+                    Silent Hill Portal dibuat bukan hanya untuk menampilkan data laporan,
+                    tetapi juga untuk mendukung alur pelaporan yang jelas. Warga memiliki
+                    sarana untuk menyampaikan informasi, sementara admin dapat mengelola
+                    status laporan secara sistematis sampai laporan selesai ditangani.
+                </p>
+            </div>
         </div>
     </div>
-</div>
+</section>
 
-<div class="about-highlight p-4">
-    <h4 class="text-light mb-3">
-        <i class="bi bi-info-circle-fill text-danger me-2"></i>
-        Tujuan Sistem
-    </h4>
-    <p>
-        Silent Hill Portal dibuat bukan hanya untuk menampilkan data laporan, tetapi juga untuk
-        mendukung alur pelaporan yang lebih tertib. Dengan adanya sistem ini, masyarakat memperoleh
-        sarana penyampaian informasi, sementara pengelola dapat melakukan pemrosesan laporan
-        dengan lebih sistematis.
-    </p>
-</div>
+<section class="about-section">
+    <div class="section-header">
+        <h2 class="landing-section-title">Alur Penggunaan</h2>
+        <p class="page-subtitle">
+            Sistem ini membagi peran antara warga dan admin agar proses pelaporan berjalan
+            lebih rapi.
+        </p>
+    </div>
+
+    <div class="about-role-grid">
+        <div class="about-role-card glass-card">
+            <div class="card-body">
+                <div class="about-role-number">01</div>
+                <h3>Citizen</h3>
+                <p>
+                    Warga membuat laporan, menyimpan draft, memperbarui draft, lalu
+                    mengajukan laporan agar dapat diproses oleh admin.
+                </p>
+            </div>
+        </div>
+
+        <div class="about-role-card glass-card">
+            <div class="card-body">
+                <div class="about-role-number">02</div>
+                <h3>Admin</h3>
+                <p>
+                    Admin memantau laporan yang sudah diajukan, lalu mengubah status
+                    laporan secara bertahap sampai laporan selesai.
+                </p>
+            </div>
+        </div>
+
+        <div class="about-role-card glass-card">
+            <div class="card-body">
+                <div class="about-role-number">03</div>
+                <h3>Dashboard</h3>
+                <p>
+                    Data laporan divisualisasikan dalam bentuk grafik dan tabel agar
+                    perkembangan laporan dapat dibaca dengan lebih cepat.
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
 {% endblock %}

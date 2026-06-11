@@ -3,33 +3,121 @@
 {% block title %}Login | Silent Hill Portal{% endblock %}
 
 {% block content %}
-<div class="row justify-content-center">
-    <div class="col-lg-6">
-        <div class="card shadow-sm">
-            <div class="card-body p-4">
-                <h1 class="page-title mb-2">Login</h1>
-                <p class="page-subtitle mb-4">Masuk ke dalam sistem untuk melanjutkan akses.</p>
+<section class="auth-page">
+    <div class="auth-visual glass-card">
+        <div class="card-body">
+            <div class="auth-mark">
+                <i class="bi bi-shield-lock"></i>
+            </div>
 
-                <form method="POST">
-                    {% csrf_token %}
+            <span class="modal-kicker">Secure Access</span>
 
-                    <div class="mb-3">
-                        <label class="form-label">Username</label>
-                        {{ form.username }}
-                    </div>
+            <h1>Silent Hill Portal</h1>
 
-                    <div class="mb-4">
-                        <label class="form-label">Password</label>
-                        {{ form.password }}
-                    </div>
+            <p>
+                Masuk ke sistem untuk mengakses halaman laporan, memantau data kota,
+                dan melanjutkan pengelolaan laporan sesuai peran pengguna.
+            </p>
 
-                    <div class="d-flex flex-wrap gap-2">
-                        <button type="submit" class="btn btn-blood">Login</button>
-                        <a href="{% url 'register' %}" class="btn btn-outline-fog">Register</a>
-                    </div>
-                </form>
+            <div class="auth-feature-list">
+                <div class="auth-feature-item">
+                    <i class="bi bi-check-circle"></i>
+                    <span>Citizen dapat membuat dan mengelola draft laporan.</span>
+                </div>
+
+                <div class="auth-feature-item">
+                    <i class="bi bi-check-circle"></i>
+                    <span>Admin dapat memantau dan memperbarui status laporan.</span>
+                </div>
+
+                <div class="auth-feature-item">
+                    <i class="bi bi-check-circle"></i>
+                    <span>Dashboard menampilkan ringkasan data laporan kota.</span>
+                </div>
             </div>
         </div>
     </div>
-</div>
+
+    <div class="auth-card glass-card">
+        <div class="card-body">
+            <div class="auth-header">
+                <span class="hero-kicker">
+                    <i class="bi bi-box-arrow-in-right"></i>
+                    Login
+                </span>
+
+                <h2>Masuk Akun</h2>
+
+                <p>
+                    Gunakan username dan password yang sudah terdaftar untuk masuk ke sistem.
+                </p>
+            </div>
+
+            <form method="POST" class="auth-form" id="loginForm">
+                {% csrf_token %}
+
+                {% if form.non_field_errors %}
+                    <div class="form-alert">
+                        {{ form.non_field_errors }}
+                    </div>
+                {% endif %}
+
+                <div class="form-group">
+                    <label for="{{ form.username.id_for_label }}" class="form-label">
+                        <i class="bi bi-person"></i>
+                        Username
+                    </label>
+                    {{ form.username }}
+                    {% if form.username.errors %}
+                        <div class="form-error">{{ form.username.errors }}</div>
+                    {% endif %}
+                </div>
+
+                <div class="form-group">
+                    <label for="{{ form.password.id_for_label }}" class="form-label">
+                        <i class="bi bi-lock"></i>
+                        Password
+                    </label>
+                    {{ form.password }}
+                    {% if form.password.errors %}
+                        <div class="form-error">{{ form.password.errors }}</div>
+                    {% endif %}
+                </div>
+
+                <div class="auth-actions">
+                    <button type="submit" class="btn btn-danger" id="loginBtn">
+                        <i class="bi bi-box-arrow-in-right"></i>
+                        <span id="loginText">Login</span>
+                    </button>
+
+                    <a href="{% url 'register' %}" class="btn btn-outline-danger">
+                        <i class="bi bi-person-plus"></i>
+                        Register
+                    </a>
+                </div>
+            </form>
+
+            <div class="auth-footer-note">
+                Belum punya akun? Buat akun citizen untuk mulai membuat laporan kota.
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const form = document.getElementById('loginForm');
+    const button = document.getElementById('loginBtn');
+    const text = document.getElementById('loginText');
+
+    if (!form || !button || !text) return;
+
+    form.addEventListener('submit', function () {
+        button.disabled = true;
+        text.textContent = 'Memproses...';
+    });
+});
+</script>
 {% endblock %}

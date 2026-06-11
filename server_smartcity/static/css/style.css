@@ -2292,3 +2292,798 @@ body.modal-open {
         flex-direction: column;
     }
 }
+
+/* ============================================================
+   ABOUT PAGE
+============================================================ */
+
+.about-hero {
+    margin-bottom: 72px;
+}
+
+.about-hero-content {
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: 38px;
+    align-items: center;
+    padding: 38px;
+}
+
+.about-hero-text {
+    position: relative;
+    z-index: 1;
+}
+
+.about-title {
+    margin: 20px 0 18px;
+    color: #ffffff;
+    font-family: var(--font-title);
+    font-size: clamp(3rem, 8vw, 6.6rem);
+    font-weight: 400;
+    line-height: 0.9;
+    letter-spacing: 0.11em;
+    text-transform: uppercase;
+    text-shadow:
+        0 0 24px rgba(192, 57, 43, 0.22),
+        0 0 60px rgba(192, 57, 43, 0.12);
+}
+
+.about-hero-text p {
+    max-width: 690px;
+    margin: 0 0 14px;
+    color: var(--color-muted);
+    font-size: 0.98rem;
+    line-height: 1.85;
+}
+
+.about-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 28px;
+}
+
+.about-visual {
+    position: relative;
+    display: grid;
+    place-items: center;
+    min-height: 420px;
+}
+
+.about-orbit {
+    position: relative;
+    width: min(360px, 100%);
+    aspect-ratio: 1;
+    display: grid;
+    place-items: center;
+    border: 1px solid rgba(192, 57, 43, 0.22);
+    border-radius: 50%;
+    background:
+        radial-gradient(circle at 50% 50%, rgba(192, 57, 43, 0.16), transparent 48%),
+        radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.045), transparent 62%);
+    box-shadow:
+        0 0 80px rgba(192, 57, 43, 0.12),
+        inset 0 0 50px rgba(0, 0, 0, 0.62);
+}
+
+.about-orbit::before,
+.about-orbit::after {
+    content: "";
+    position: absolute;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 50%;
+}
+
+.about-orbit::before {
+    inset: 34px;
+}
+
+.about-orbit::after {
+    inset: 76px;
+    border-color: rgba(192, 57, 43, 0.18);
+}
+
+.orbit-dot {
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: var(--color-red-3);
+    box-shadow: 0 0 22px rgba(192, 57, 43, 0.65);
+}
+
+.orbit-dot-1 {
+    top: 42px;
+    right: 78px;
+}
+
+.orbit-dot-2 {
+    left: 44px;
+    bottom: 88px;
+    background: var(--color-blue-2);
+    box-shadow: 0 0 22px rgba(47, 111, 163, 0.65);
+}
+
+.orbit-dot-3 {
+    right: 42px;
+    bottom: 74px;
+    background: var(--color-green-2);
+    box-shadow: 0 0 22px rgba(46, 139, 87, 0.65);
+}
+
+.about-visual-core {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    place-items: center;
+    width: 170px;
+    height: 170px;
+    padding: 18px;
+    border: 1px solid rgba(192, 57, 43, 0.34);
+    border-radius: 34px;
+    background: rgba(12, 12, 12, 0.88);
+    text-align: center;
+    box-shadow: var(--shadow-panel);
+}
+
+.about-visual-core i {
+    color: #ffb3aa;
+    font-size: 2.2rem;
+}
+
+.about-visual-core strong {
+    margin-top: 12px;
+    color: #ffffff;
+    font-family: var(--font-display);
+    font-size: 1.35rem;
+    font-weight: 800;
+}
+
+.about-visual-core span {
+    color: var(--color-muted);
+    font-size: 0.82rem;
+}
+
+.about-section {
+    margin-top: 72px;
+}
+
+.about-feature-grid,
+.about-role-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+    margin-top: 24px;
+}
+
+.about-feature-card,
+.about-role-card {
+    height: 100%;
+    transition:
+        transform 0.2s ease,
+        border-color 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.about-feature-card:hover,
+.about-role-card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(192, 57, 43, 0.34);
+    box-shadow:
+        0 26px 80px rgba(0, 0, 0, 0.55),
+        0 0 26px rgba(192, 57, 43, 0.12);
+}
+
+.about-feature-card h3,
+.about-role-card h3 {
+    margin: 0;
+    color: #ffffff;
+    font-family: var(--font-display);
+    font-size: 1.35rem;
+    font-weight: 800;
+}
+
+.about-feature-card p,
+.about-role-card p {
+    margin: 12px 0 0;
+    color: var(--color-muted);
+    font-size: 0.92rem;
+    line-height: 1.75;
+}
+
+.about-highlight .card-body {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 22px;
+    align-items: flex-start;
+    padding: 32px;
+}
+
+.about-highlight-icon {
+    display: grid;
+    place-items: center;
+    width: 62px;
+    height: 62px;
+    border: 1px solid rgba(192, 57, 43, 0.38);
+    border-radius: 20px;
+    background: rgba(192, 57, 43, 0.14);
+    color: #ffb3aa;
+    font-size: 1.55rem;
+    box-shadow: var(--shadow-red);
+}
+
+.about-highlight h2 {
+    margin: 0;
+    color: #ffffff;
+    font-family: var(--font-display);
+    font-size: clamp(1.55rem, 4vw, 2.3rem);
+    font-weight: 800;
+}
+
+.about-highlight p {
+    margin: 12px 0 0;
+    color: var(--color-muted);
+    line-height: 1.8;
+}
+
+.about-role-number {
+    display: inline-flex;
+    margin-bottom: 18px;
+    color: #ffb3aa;
+    font-family: var(--font-display);
+    font-size: 1.05rem;
+    font-weight: 800;
+    letter-spacing: 0.16em;
+}
+
+@media (max-width: 991px) {
+    .about-hero-content {
+        grid-template-columns: 1fr;
+    }
+
+    .about-visual {
+        min-height: 320px;
+    }
+
+    .about-orbit {
+        width: min(310px, 100%);
+    }
+
+    .about-feature-grid,
+    .about-role-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 576px) {
+    .about-hero-content,
+    .about-highlight .card-body {
+        padding: 24px;
+    }
+
+    .about-highlight .card-body {
+        grid-template-columns: 1fr;
+    }
+
+    .about-actions,
+    .about-actions .btn {
+        width: 100%;
+    }
+
+    .about-visual-core {
+        width: 145px;
+        height: 145px;
+    }
+}
+
+/* ============================================================
+   CONTACT PAGE
+============================================================ */
+
+.contact-hero {
+    margin-bottom: 72px;
+}
+
+.contact-hero-content {
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: 36px;
+    align-items: center;
+    padding: 38px;
+}
+
+.contact-title {
+    margin: 20px 0 18px;
+    color: #ffffff;
+    font-family: var(--font-title);
+    font-size: clamp(3rem, 8vw, 6.4rem);
+    font-weight: 400;
+    line-height: 0.9;
+    letter-spacing: 0.11em;
+    text-transform: uppercase;
+    text-shadow:
+        0 0 24px rgba(192, 57, 43, 0.22),
+        0 0 60px rgba(192, 57, 43, 0.12);
+}
+
+.contact-hero-text p {
+    max-width: 690px;
+    margin: 0;
+    color: var(--color-muted);
+    font-size: 0.98rem;
+    line-height: 1.85;
+}
+
+.contact-hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 28px;
+}
+
+.contact-visual {
+    display: grid;
+    place-items: center;
+    min-height: 360px;
+}
+
+.contact-visual-card {
+    position: relative;
+    display: grid;
+    place-items: center;
+    width: min(320px, 100%);
+    min-height: 320px;
+    padding: 28px;
+    border: 1px solid rgba(192, 57, 43, 0.28);
+    border-radius: 40px;
+    background:
+        radial-gradient(circle at 50% 32%, rgba(192, 57, 43, 0.18), transparent 40%),
+        rgba(255, 255, 255, 0.035);
+    text-align: center;
+    box-shadow:
+        0 30px 90px rgba(0, 0, 0, 0.58),
+        0 0 48px rgba(192, 57, 43, 0.12);
+}
+
+.contact-visual-card::before,
+.contact-visual-card::after {
+    content: "";
+    position: absolute;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    pointer-events: none;
+}
+
+.contact-visual-card::before {
+    inset: 28px;
+    border-radius: 32px;
+}
+
+.contact-visual-card::after {
+    inset: 58px;
+    border-radius: 24px;
+    border-color: rgba(192, 57, 43, 0.18);
+}
+
+.contact-visual-icon {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    place-items: center;
+    width: 92px;
+    height: 92px;
+    border: 1px solid rgba(192, 57, 43, 0.38);
+    border-radius: 30px;
+    background: rgba(192, 57, 43, 0.14);
+    color: #ffb3aa;
+    font-size: 2.45rem;
+    box-shadow: var(--shadow-red);
+}
+
+.contact-visual-card strong,
+.contact-visual-card span {
+    position: relative;
+    z-index: 1;
+}
+
+.contact-visual-card strong {
+    margin-top: 20px;
+    color: #ffffff;
+    font-family: var(--font-display);
+    font-size: 1.45rem;
+    font-weight: 800;
+}
+
+.contact-visual-card span {
+    color: var(--color-muted);
+    font-size: 0.88rem;
+}
+
+.contact-section {
+    margin-top: 72px;
+}
+
+.contact-info-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    margin-top: 24px;
+}
+
+.contact-info-card {
+    height: 100%;
+    transition:
+        transform 0.2s ease,
+        border-color 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.contact-info-card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(192, 57, 43, 0.34);
+    box-shadow:
+        0 26px 80px rgba(0, 0, 0, 0.55),
+        0 0 26px rgba(192, 57, 43, 0.12);
+}
+
+.contact-info-card .card-body {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    padding: 22px;
+}
+
+.contact-info-icon {
+    display: grid;
+    place-items: center;
+    width: 48px;
+    height: 48px;
+    border: 1px solid rgba(192, 57, 43, 0.34);
+    border-radius: 16px;
+    background: rgba(192, 57, 43, 0.13);
+    color: #ffb3aa;
+    font-size: 1.18rem;
+    flex: 0 0 auto;
+}
+
+.contact-info-card span {
+    display: block;
+    margin-bottom: 6px;
+    color: var(--color-muted-2);
+    font-size: 0.78rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.contact-info-card strong {
+    display: block;
+    color: #ffffff;
+    font-size: 0.98rem;
+    line-height: 1.5;
+}
+
+.contact-info-card small {
+    display: block;
+    margin-top: 6px;
+    color: var(--color-muted-2);
+    font-size: 0.78rem;
+    line-height: 1.45;
+}
+
+.contact-detail-grid {
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: 18px;
+}
+
+.contact-note-card {
+    height: 100%;
+}
+
+.contact-note-card .card-body {
+    padding: 28px;
+}
+
+.contact-note-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    margin-bottom: 18px;
+}
+
+.contact-note-icon {
+    display: grid;
+    place-items: center;
+    width: 54px;
+    height: 54px;
+    border: 1px solid rgba(192, 57, 43, 0.36);
+    border-radius: 18px;
+    background: rgba(192, 57, 43, 0.13);
+    color: #ffb3aa;
+    font-size: 1.25rem;
+    flex: 0 0 auto;
+}
+
+.contact-note-card h2 {
+    margin: 4px 0 0;
+    color: #ffffff;
+    font-family: var(--font-display);
+    font-size: 1.45rem;
+    font-weight: 800;
+}
+
+.contact-note-card p {
+    margin: 0;
+    color: var(--color-muted);
+    line-height: 1.8;
+}
+
+.schedule-list {
+    display: grid;
+    gap: 12px;
+}
+
+.schedule-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+    padding: 14px;
+    border: 1px solid var(--color-border);
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.035);
+}
+
+.schedule-item span {
+    color: var(--color-muted);
+    font-size: 0.9rem;
+}
+
+.schedule-item strong {
+    color: #ffffff;
+    font-size: 0.92rem;
+}
+
+.contact-cta {
+    margin-top: 72px;
+}
+
+.contact-cta .card-body {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 28px;
+    padding: 32px;
+}
+
+.contact-cta h2 {
+    margin: 0;
+    color: #ffffff;
+    font-family: var(--font-display);
+    font-size: clamp(1.5rem, 4vw, 2.2rem);
+    font-weight: 800;
+}
+
+.contact-cta p {
+    max-width: 650px;
+    margin: 12px 0 0;
+    color: var(--color-muted);
+    line-height: 1.7;
+}
+
+.contact-cta-actions {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    flex: 0 0 auto;
+}
+
+@media (max-width: 1100px) {
+    .contact-info-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 991px) {
+    .contact-hero-content,
+    .contact-detail-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .contact-visual {
+        min-height: 280px;
+    }
+
+    .contact-visual-card {
+        min-height: 260px;
+    }
+
+    .contact-cta .card-body {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+}
+
+@media (max-width: 576px) {
+    .contact-hero-content {
+        padding: 24px;
+    }
+
+    .contact-info-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .contact-hero-actions,
+    .contact-hero-actions .btn,
+    .contact-cta-actions,
+    .contact-cta-actions .btn {
+        width: 100%;
+    }
+
+    .schedule-item {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+}
+
+/* ============================================================
+   AUTH PAGES
+============================================================ */
+
+.auth-page {
+    display: grid;
+    grid-template-columns: 1fr 0.92fr;
+    gap: 24px;
+    align-items: stretch;
+    min-height: calc(100vh - var(--navbar-height) - 160px);
+}
+
+.auth-visual,
+.auth-card {
+    border-color: rgba(192, 57, 43, 0.24);
+}
+
+.auth-visual .card-body,
+.auth-card .card-body {
+    padding: 34px;
+}
+
+.auth-visual {
+    display: grid;
+    align-items: center;
+}
+
+.auth-mark {
+    display: grid;
+    place-items: center;
+    width: 76px;
+    height: 76px;
+    margin-bottom: 24px;
+    border: 1px solid rgba(192, 57, 43, 0.42);
+    border-radius: 26px;
+    background:
+        radial-gradient(circle at 50% 28%, rgba(255, 255, 255, 0.08), transparent 48%),
+        rgba(192, 57, 43, 0.14);
+    color: #ffb3aa;
+    font-size: 2rem;
+    box-shadow: var(--shadow-red);
+}
+
+.auth-visual h1 {
+    max-width: 620px;
+    margin: 12px 0 18px;
+    color: #ffffff;
+    font-family: var(--font-title);
+    font-size: clamp(3rem, 7vw, 6.2rem);
+    font-weight: 400;
+    line-height: 0.9;
+    letter-spacing: 0.11em;
+    text-transform: uppercase;
+    text-shadow:
+        0 0 24px rgba(192, 57, 43, 0.22),
+        0 0 60px rgba(192, 57, 43, 0.12);
+}
+
+.auth-visual p {
+    max-width: 620px;
+    margin: 0;
+    color: var(--color-muted);
+    font-size: 0.98rem;
+    line-height: 1.85;
+}
+
+.auth-feature-list {
+    display: grid;
+    gap: 12px;
+    margin-top: 28px;
+}
+
+.auth-feature-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    color: var(--color-muted);
+    font-size: 0.9rem;
+    line-height: 1.6;
+}
+
+.auth-feature-item i {
+    margin-top: 2px;
+    color: #ffb3aa;
+}
+
+.auth-header {
+    margin-bottom: 26px;
+}
+
+.auth-header h2 {
+    margin: 16px 0 10px;
+    color: #ffffff;
+    font-family: var(--font-display);
+    font-size: clamp(1.9rem, 4vw, 2.8rem);
+    font-weight: 800;
+}
+
+.auth-header p {
+    margin: 0;
+    color: var(--color-muted);
+    line-height: 1.7;
+}
+
+.auth-form {
+    display: grid;
+    gap: 18px;
+}
+
+.auth-actions {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 6px;
+}
+
+.auth-footer-note {
+    margin-top: 24px;
+    padding-top: 18px;
+    border-top: 1px solid var(--color-border);
+    color: var(--color-muted-2);
+    font-size: 0.88rem;
+    line-height: 1.6;
+}
+
+.auth-card input {
+    min-height: 48px;
+}
+
+.auth-card input:-webkit-autofill,
+.auth-card input:-webkit-autofill:hover,
+.auth-card input:-webkit-autofill:focus {
+    -webkit-text-fill-color: #ffffff;
+    -webkit-box-shadow: 0 0 0 1000px #0a0a0a inset;
+    transition: background-color 5000s ease-in-out 0s;
+}
+
+@media (max-width: 991px) {
+    .auth-page {
+        grid-template-columns: 1fr;
+    }
+
+    .auth-visual .card-body,
+    .auth-card .card-body {
+        padding: 28px;
+    }
+}
+
+@media (max-width: 576px) {
+    .auth-actions,
+    .auth-actions .btn {
+        width: 100%;
+    }
+
+    .auth-visual .card-body,
+    .auth-card .card-body {
+        padding: 24px;
+    }
+}

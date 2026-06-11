@@ -2,192 +2,205 @@
 
 {% block title %}Contact | Silent Hill Portal{% endblock %}
 
-{% block extra_css %}
-<style>
-    .contact-hero {
-        background: linear-gradient(135deg, #111111, #1a1a1a);
-        border: 1px solid #242424;
-        border-radius: 20px;
-        overflow: hidden;
-    }
-
-    .contact-icon-wrap {
-        width: 82px;
-        height: 82px;
-        border-radius: 50%;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        background: rgba(178, 34, 34, 0.12);
-        border: 1px solid rgba(178, 34, 34, 0.35);
-    }
-
-    .contact-info-card {
-        background: #141414;
-        border: 1px solid #2a2a2a;
-        border-radius: 18px;
-        height: 100%;
-        transition: 0.25s ease;
-    }
-
-    .contact-info-card:hover {
-        transform: translateY(-4px);
-        border-color: #3a3a3a;
-        box-shadow: 0 12px 24px rgba(0, 0, 0, 0.25);
-    }
-
-    .contact-badge-icon {
-        width: 48px;
-        height: 48px;
-        border-radius: 14px;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        background: rgba(178, 34, 34, 0.14);
-        color: #b22222;
-        font-size: 1.2rem;
-        flex-shrink: 0;
-    }
-
-    .contact-label {
-        color: #8d8d8d;
-        font-size: 0.9rem;
-        margin-bottom: 4px;
-    }
-
-    .contact-value {
-        color: #f2f2f2;
-        font-size: 1.05rem;
-        font-weight: 600;
-        margin-bottom: 0;
-    }
-
-    .contact-note-card {
-        background: #101010;
-        border: 1px solid #262626;
-        border-radius: 18px;
-    }
-
-    .contact-note-card p,
-    .contact-note-card li {
-        color: #b4b4b4;
-    }
-</style>
-{% endblock %}
-
 {% block content %}
 <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+        <li class="breadcrumb-item">
+            <a href="{% url 'home' %}">Home</a>
+        </li>
         <li class="breadcrumb-item active" aria-current="page">Contact</li>
     </ol>
 </nav>
 
-<div class="contact-hero shadow-sm mb-4">
-    <div class="card-body p-4 p-lg-5">
-        <div class="row align-items-center g-4">
-            <div class="col-lg-8">
-                <h1 class="page-title mb-3">Contact</h1>
-                <p class="page-subtitle mb-0">
-                    Jika ingin menghubungi pengelola sistem, silakan gunakan informasi berikut.
-                    Halaman ini dirancang agar informasi kontak lebih jelas, rapi, dan mudah dibaca.
-                </p>
+<section class="contact-hero glass-card">
+    <div class="contact-hero-content">
+        <div class="contact-hero-text">
+            <span class="hero-kicker">
+                <i class="bi bi-person-lines-fill"></i>
+                Contact Center
+            </span>
+
+            <h1 class="contact-title">Hubungi Pengelola</h1>
+
+            <p>
+                Gunakan halaman ini untuk melihat informasi kontak pengelola
+                Silent Hill Portal. Informasi disusun agar pengguna lebih mudah
+                menemukan kanal komunikasi yang tersedia.
+            </p>
+
+            <div class="contact-hero-actions">
+                <a href="{% url 'report_list' %}" class="btn btn-danger">
+                    <i class="bi bi-journal-text"></i>
+                    Lihat Reports
+                </a>
+
+                <a href="{% url 'about' %}" class="btn btn-outline-danger">
+                    <i class="bi bi-info-circle"></i>
+                    Tentang Sistem
+                </a>
             </div>
-            <div class="col-lg-4 text-lg-end text-center">
-                <div class="contact-icon-wrap">
-                    <i class="bi bi-person-lines-fill text-danger fs-2"></i>
+        </div>
+
+        <div class="contact-visual">
+            <div class="contact-visual-card">
+                <div class="contact-visual-icon">
+                    <i class="bi bi-headset"></i>
                 </div>
+
+                <strong>Support Portal</strong>
+                <span>City report assistance</span>
             </div>
         </div>
     </div>
-</div>
+</section>
 
-<div class="row g-4">
-    <div class="col-md-6 col-xl-3">
-        <div class="contact-info-card p-4">
-            <div class="d-flex align-items-start gap-3">
-                <div class="contact-badge-icon">
+<section class="contact-section">
+    <div class="section-header">
+        <h2 class="landing-section-title">Informasi Kontak</h2>
+        <p class="page-subtitle">
+            Data kontak berikut digunakan sebagai identitas pengelola sistem
+            dan media informasi untuk kebutuhan portal.
+        </p>
+    </div>
+
+    <div class="contact-info-grid">
+        <article class="contact-info-card glass-card">
+            <div class="card-body">
+                <div class="contact-info-icon">
                     <i class="bi bi-person-fill"></i>
                 </div>
+
                 <div>
-                    <div class="contact-label">Nama</div>
-                    <p class="contact-value">Nazheef</p>
+                    <span>Nama</span>
+                    <strong>Nazheef</strong>
                 </div>
             </div>
-        </div>
-    </div>
+        </article>
 
-    <div class="col-md-6 col-xl-3">
-        <div class="contact-info-card p-4">
-            <div class="d-flex align-items-start gap-3">
-                <div class="contact-badge-icon">
+        <article class="contact-info-card glass-card">
+            <div class="card-body">
+                <div class="contact-info-icon">
                     <i class="bi bi-envelope-fill"></i>
                 </div>
+
                 <div>
-                    <div class="contact-label">Email</div>
-                    <p class="contact-value">Orca.id</p>
+                    <span>Email</span>
+                    <strong>Orca.id</strong>
                 </div>
             </div>
-        </div>
-    </div>
+        </article>
 
-    <div class="col-md-6 col-xl-3">
-        <div class="contact-info-card p-4">
-            <div class="d-flex align-items-start gap-3">
-                <div class="contact-badge-icon">
+        <article class="contact-info-card glass-card">
+            <div class="card-body">
+                <div class="contact-info-icon">
                     <i class="bi bi-telephone-fill"></i>
                 </div>
+
                 <div>
-                    <div class="contact-label">Telepon</div>
-                    <p class="contact-value">08123456789</p>
-                    <small class="text-secondary">(hanya fiksi)</small>
+                    <span>Telepon</span>
+                    <strong>08123456789</strong>
+                    <small>Nomor digunakan sebagai data fiksi.</small>
                 </div>
             </div>
-        </div>
-    </div>
+        </article>
 
-    <div class="col-md-6 col-xl-3">
-        <div class="contact-info-card p-4">
-            <div class="d-flex align-items-start gap-3">
-                <div class="contact-badge-icon">
+        <article class="contact-info-card glass-card">
+            <div class="card-body">
+                <div class="contact-info-icon">
                     <i class="bi bi-geo-alt-fill"></i>
                 </div>
+
                 <div>
-                    <div class="contact-label">Alamat</div>
-                    <p class="contact-value">Jl. Pangeran Antasari No. 10, Bandar Lampung</p>
+                    <span>Alamat</span>
+                    <strong>Jl. Pangeran Antasari No. 10, Bandar Lampung</strong>
                 </div>
+            </div>
+        </article>
+    </div>
+</section>
+
+<section class="contact-section">
+    <div class="contact-detail-grid">
+        <article class="contact-note-card glass-card">
+            <div class="card-body">
+                <div class="contact-note-header">
+                    <div class="contact-note-icon">
+                        <i class="bi bi-chat-left-dots-fill"></i>
+                    </div>
+
+                    <div>
+                        <span class="modal-kicker">Informasi Tambahan</span>
+                        <h2>Bantuan Penggunaan Portal</h2>
+                    </div>
+                </div>
+
+                <p>
+                    Halaman contact ini digunakan sebagai media informasi pengelola
+                    sistem. Jika terdapat kendala saat menggunakan portal, pengguna
+                    dapat menggunakan data kontak yang tersedia untuk memperoleh
+                    bantuan lebih lanjut.
+                </p>
+            </div>
+        </article>
+
+        <article class="contact-note-card glass-card">
+            <div class="card-body">
+                <div class="contact-note-header">
+                    <div class="contact-note-icon">
+                        <i class="bi bi-clock-history"></i>
+                    </div>
+
+                    <div>
+                        <span class="modal-kicker">Jam Operasional</span>
+                        <h2>Waktu Layanan</h2>
+                    </div>
+                </div>
+
+                <div class="schedule-list">
+                    <div class="schedule-item">
+                        <span>Senin - Jumat</span>
+                        <strong>08.00 - 16.00</strong>
+                    </div>
+
+                    <div class="schedule-item">
+                        <span>Sabtu</span>
+                        <strong>09.00 - 13.00</strong>
+                    </div>
+
+                    <div class="schedule-item">
+                        <span>Minggu</span>
+                        <strong>Tutup</strong>
+                    </div>
+                </div>
+            </div>
+        </article>
+    </div>
+</section>
+
+<section class="contact-section">
+    <div class="contact-cta glass-card">
+        <div class="card-body">
+            <div>
+                <span class="modal-kicker">Silent Hill Portal</span>
+                <h2>Periksa laporan kota secara berkala.</h2>
+                <p>
+                    Gunakan halaman Reports untuk melihat daftar laporan terbaru,
+                    atau buka Dashboard untuk melihat ringkasan statistik laporan.
+                </p>
+            </div>
+
+            <div class="contact-cta-actions">
+                <a href="{% url 'report_list' %}" class="btn btn-danger">
+                    <i class="bi bi-journal-text"></i>
+                    Reports
+                </a>
+
+                <a href="{% url 'dashboard' %}" class="btn btn-outline-danger">
+                    <i class="bi bi-bar-chart"></i>
+                    Dashboard
+                </a>
             </div>
         </div>
     </div>
-</div>
-
-<div class="row g-4 mt-1">
-    <div class="col-lg-7">
-        <div class="contact-note-card p-4 h-100">
-            <h4 class="text-light mb-3">
-                <i class="bi bi-chat-left-dots-fill text-danger me-2"></i>
-                Informasi Tambahan
-            </h4>
-            <p class="mb-0">
-                Halaman contact ini digunakan sebagai media informasi pengelola sistem.
-                Jika terdapat kendala pada portal, pengguna dapat menggunakan data kontak
-                yang tersedia untuk memperoleh bantuan lebih lanjut.
-            </p>
-        </div>
-    </div>
-
-    <div class="col-lg-5">
-        <div class="contact-note-card p-4 h-100">
-            <h4 class="text-light mb-3">
-                <i class="bi bi-clock-history text-danger me-2"></i>
-                Jam Operasional
-            </h4>
-            <ul class="mb-0 ps-3">
-                <li>Senin - Jumat: 08.00 - 16.00</li>
-                <li>Sabtu: 09.00 - 13.00</li>
-                <li>Minggu: Tutup</li>
-            </ul>
-        </div>
-    </div>
-</div>
+</section>
 {% endblock %}
