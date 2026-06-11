@@ -3,24 +3,246 @@
 {% block title %}Home | Silent Hill Portal{% endblock %}
 
 {% block content %}
-<div class="d-flex flex-column justify-content-center align-items-center text-center" style="min-height: 70vh;">
-    <h1 class="page-title display-3 mb-3">Silent Hill Portal</h1>
+<section class="landing-hero">
+    <div class="landing-hero-glow"></div>
 
-    <p class="page-subtitle mb-4" style="max-width: 700px;">
-        Sistem pelaporan masalah kota dengan nuansa gelap, rapi, dan terstruktur
-        untuk memantau laporan dari tahap awal sampai selesai.
-    </p>
+    <div class="hero-content" data-animate>
+        <div class="hero-kicker">
+            <i class="bi bi-broadcast-pin"></i>
+            City Incident Monitoring Portal
+        </div>
 
-    <div class="d-flex flex-wrap justify-content-center gap-2">
-        <a href="{% url 'report_list' %}" class="btn btn-blood btn-lg">
-            <i class="bi bi-journal-text me-1"></i> Lihat Reports
-        </a>
+        <h1 class="hero-title">
+            <span id="typewriterTitle" data-text="Silent Hill Portal">Silent Hill Portal</span>
+        </h1>
 
-        {% if user.is_authenticated and user.is_member and not user.is_admin %}
-        <a href="{% url 'report_add' %}" class="btn btn-outline-fog btn-lg">
-            <i class="bi bi-plus-circle me-1"></i> Tambah Laporan
-        </a>
-        {% endif %}
+        <p class="hero-subtitle">
+            Sistem pelaporan masalah kota yang membantu warga menyampaikan laporan,
+            memantau status penanganan, dan mendukung proses pengelolaan laporan
+            secara rapi, cepat, dan terstruktur.
+        </p>
+
+        <div class="hero-actions">
+            <a href="{% url 'report_list' %}" class="btn btn-danger btn-lg">
+                <i class="bi bi-journal-text"></i>
+                Lihat Reports
+            </a>
+
+            <a href="{% url 'dashboard' %}" class="btn btn-outline-danger btn-lg">
+                <i class="bi bi-bar-chart"></i>
+                Buka Dashboard
+            </a>
+
+            {% if user.is_authenticated and user.is_member and not user.is_admin %}
+            <a href="{% url 'report_add' %}" class="btn btn-outline-light btn-lg">
+                <i class="bi bi-plus-circle"></i>
+                Tambah Laporan
+            </a>
+            {% endif %}
+        </div>
     </div>
-</div>
+
+    <div class="landing-stat-grid" data-animate>
+        <div class="landing-stat-card">
+            <div class="landing-stat-icon">
+                <i class="bi bi-clipboard-data"></i>
+            </div>
+            <span class="landing-stat-number" data-counter="{{ total_reports|default:'0' }}">0</span>
+            <span class="landing-stat-label">Total Laporan</span>
+        </div>
+
+        <div class="landing-stat-card">
+            <div class="landing-stat-icon">
+                <i class="bi bi-broadcast"></i>
+            </div>
+            <span class="landing-stat-number" data-counter="{{ reported_reports|default:'0' }}">0</span>
+            <span class="landing-stat-label">Reported</span>
+        </div>
+
+        <div class="landing-stat-card">
+            <div class="landing-stat-icon">
+                <i class="bi bi-shield-check"></i>
+            </div>
+            <span class="landing-stat-number" data-counter="{{ verified_reports|default:'0' }}">0</span>
+            <span class="landing-stat-label">Verified</span>
+        </div>
+
+        <div class="landing-stat-card">
+            <div class="landing-stat-icon">
+                <i class="bi bi-check-circle"></i>
+            </div>
+            <span class="landing-stat-number" data-counter="{{ resolved_reports|default:'0' }}">0</span>
+            <span class="landing-stat-label">Resolved</span>
+        </div>
+    </div>
+</section>
+
+<section class="landing-section" data-animate>
+    <div class="section-header">
+        <h2 class="landing-section-title">Fitur Utama</h2>
+        <p class="page-subtitle">
+            Portal ini dirancang untuk memudahkan proses pelaporan masalah kota
+            dari tahap awal sampai laporan selesai ditangani.
+        </p>
+    </div>
+
+    <div class="feature-grid">
+        <div class="feature-card glass-card">
+            <div class="card-body">
+                <div class="feature-icon">
+                    <i class="bi bi-pencil-square"></i>
+                </div>
+                <h3>Pelaporan Warga</h3>
+                <p>
+                    Warga dapat membuat laporan, menyimpan draft, mengedit laporan
+                    yang belum diajukan, dan mengirim laporan saat data sudah siap.
+                </p>
+            </div>
+        </div>
+
+        <div class="feature-card glass-card">
+            <div class="card-body">
+                <div class="feature-icon">
+                    <i class="bi bi-shield-check"></i>
+                </div>
+                <h3>Validasi Admin</h3>
+                <p>
+                    Admin dapat memantau laporan masuk dan mengubah status laporan
+                    secara bertahap tanpa mengubah isi laporan warga.
+                </p>
+            </div>
+        </div>
+
+        <div class="feature-card glass-card">
+            <div class="card-body">
+                <div class="feature-icon">
+                    <i class="bi bi-graph-up-arrow"></i>
+                </div>
+                <h3>Dashboard Statistik</h3>
+                <p>
+                    Data laporan divisualisasikan melalui grafik status, kategori,
+                    dan daftar laporan terbaru agar lebih mudah dianalisis.
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="landing-section" data-animate>
+    <div class="section-header">
+        <h2 class="landing-section-title">Alur Penanganan</h2>
+        <p class="page-subtitle">
+            Setiap laporan memiliki status yang menunjukkan posisi laporan dalam
+            proses penanganan.
+        </p>
+    </div>
+
+    <div class="workflow-grid">
+        <div class="workflow-card">
+            <span class="workflow-step">01</span>
+            <h3>Draft</h3>
+            <p>Laporan masih dapat disimpan dan diperbaiki oleh warga.</p>
+        </div>
+
+        <div class="workflow-card">
+            <span class="workflow-step">02</span>
+            <h3>Reported</h3>
+            <p>Laporan sudah diajukan dan masuk ke daftar laporan kota.</p>
+        </div>
+
+        <div class="workflow-card">
+            <span class="workflow-step">03</span>
+            <h3>Verified</h3>
+            <p>Admin memverifikasi laporan sebelum masuk proses penanganan.</p>
+        </div>
+
+        <div class="workflow-card">
+            <span class="workflow-step">04</span>
+            <h3>Resolved</h3>
+            <p>Laporan sudah selesai ditangani dan tercatat di sistem.</p>
+        </div>
+    </div>
+</section>
+
+<section class="landing-cta glass-card" data-animate>
+    <div class="card-body">
+        <div>
+            <span class="modal-kicker">Silent Hill Portal</span>
+            <h2>Kelola laporan kota dengan tampilan yang lebih jelas.</h2>
+            <p>
+                Gunakan halaman Reports untuk melihat detail laporan, atau buka Dashboard
+                untuk melihat ringkasan statistik secara visual.
+            </p>
+        </div>
+
+        <div class="landing-cta-actions">
+            <a href="{% url 'report_list' %}" class="btn btn-danger">
+                <i class="bi bi-journal-text"></i>
+                Reports
+            </a>
+
+            <a href="{% url 'dashboard' %}" class="btn btn-outline-danger">
+                <i class="bi bi-bar-chart"></i>
+                Dashboard
+            </a>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    runTypewriterTitle();
+    runLandingCounters();
+});
+
+function runTypewriterTitle() {
+    const title = document.getElementById('typewriterTitle');
+
+    if (!title) return;
+
+    const text = title.dataset.text || title.textContent;
+    let index = 0;
+
+    title.textContent = '';
+
+    function type() {
+        title.textContent = text.slice(0, index);
+        index += 1;
+
+        if (index <= text.length) {
+            setTimeout(type, 55);
+        }
+    }
+
+    type();
+}
+
+function runLandingCounters() {
+    const counters = document.querySelectorAll('[data-counter]');
+
+    counters.forEach(function (counter) {
+        const target = Number(counter.dataset.counter || 0);
+        const duration = 800;
+        const startTime = performance.now();
+
+        function update(currentTime) {
+            const elapsed = currentTime - startTime;
+            const progress = Math.min(elapsed / duration, 1);
+            const value = Math.floor(target * progress);
+
+            counter.textContent = value;
+
+            if (progress < 1) {
+                requestAnimationFrame(update);
+            } else {
+                counter.textContent = target;
+            }
+        }
+
+        requestAnimationFrame(update);
+    });
+}
+</script>
 {% endblock %}

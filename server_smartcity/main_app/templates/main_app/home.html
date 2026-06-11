@@ -3,56 +3,67 @@
 {% block title %}Daftar Laporan | Silent Hill Portal{% endblock %}
 
 {% block content %}
-<nav aria-label="breadcrumb">
+<nav aria-label="breadcrumb" data-animate>
     <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+        <li class="breadcrumb-item">
+            <a href="{% url 'home' %}">Home</a>
+        </li>
         <li class="breadcrumb-item active" aria-current="page">Reports</li>
     </ol>
 </nav>
 
-<div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-4">
-    <div>
-        <h1 class="page-title mb-1">Silent Hill Reports</h1>
-        <p class="page-subtitle mb-0">
+<section class="reports-header" data-animate>
+    <div class="section-header">
+        <h1 class="page-title">Silent Hill Reports</h1>
+        <p class="page-subtitle">
             {% if user.is_authenticated and user.is_admin %}
-                Mode admin: kelola status laporan warga.
+                Mode admin aktif. Kelola status laporan warga tanpa mengubah isi laporan.
             {% else %}
-                Pantau dan kelola laporan masalah kota.
+                Pantau laporan kota, kelola draft, dan ikuti perkembangan penanganan laporan warga.
             {% endif %}
         </p>
     </div>
 
-    <div class="mt-3 mt-md-0">
-        {% if user.is_authenticated and user.is_member and not user.is_admin %}
-        <a href="{% url 'report_add' %}" class="btn btn-blood">
-            <i class="bi bi-plus-circle me-1"></i> Tambah Laporan
-        </a>
-        {% endif %}
-    </div>
-</div>
+    {% if user.is_authenticated and user.is_member and not user.is_admin %}
+    <a href="{% url 'report_add' %}" class="btn btn-danger btn-lg">
+        <i class="bi bi-plus-circle"></i>
+        Tambah Laporan
+    </a>
+    {% endif %}
+</section>
 
-<div class="card shadow-sm mb-4">
+<section class="reports-toolbar glass-card" data-animate>
     <div class="card-body">
-        <label for="searchInput" class="form-label">Cari laporan</label>
-        <input
-            type="text"
-            id="searchInput"
-            class="form-control"
-            placeholder="Cari berdasarkan judul, kategori, lokasi, atau status..."
-        >
-    </div>
-</div>
+        <div class="search-box">
+            <label for="searchInput" class="form-label">
+                <i class="bi bi-search"></i>
+                Cari laporan
+            </label>
 
-<div class="card shadow-sm">
+            <div class="search-input-wrap">
+                <i class="bi bi-search"></i>
+                <input
+                    type="text"
+                    id="searchInput"
+                    class="form-control"
+                    placeholder="Cari berdasarkan judul, kategori, lokasi, atau status..."
+                    autocomplete="off"
+                >
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="reports-table-card glass-card">
     <div class="card-body">
         <div class="table-responsive">
-            <table class="table table-dark table-hover align-middle mb-0">
+            <table class="table reports-table">
                 <thead>
                     <tr>
                         <th>Judul</th>
                         <th>Lokasi</th>
                         <th>Status</th>
-                        <th style="min-width: 260px;">Aksi</th>
+                        <th>Aksi</th>
                     </tr>
                 </thead>
 
@@ -61,56 +72,97 @@
                         {% for report in reports %}
                         <tr>
                             <td>
-                                <strong>{{ report.title }}</strong><br>
-                                <small class="text-secondary">{{ report.category }}</small>
+                                <div class="report-title-cell">
+                                    <strong>{{ report.title }}</strong>
+                                    <span>{{ report.category }}</span>
+                                </div>
                             </td>
 
-                            <td>{{ report.location }}</td>
+                            <td>
+                                <div class="report-location-cell">
+                                    <i class="bi bi-geo-alt"></i>
+                                    <span>{{ report.location }}</span>
+                                </div>
+                            </td>
 
                             <td>
                                 {% include 'main_app/partials/status_badge.html' with status=report.status %}
                             </td>
 
                             <td>
-                                <div class="d-flex flex-wrap gap-2">
-                                    <button type="button"
-                                            class="btn btn-sm btn-outline-light detail-btn"
-                                            data-id="{{ report.pk }}">
+                                <div class="action-group">
+                                    <button
+                                        type="button"
+                                        class="btn btn-sm btn-outline-light detail-btn"
+                                        data-id="{{ report.pk }}"
+                                        title="Lihat detail laporan">
+                                        <i class="bi bi-eye"></i>
                                         Detail
                                     </button>
 
                                     {% if user.is_authenticated and user.is_member and not user.is_admin and report.reporter_id == user.id and report.status == 'DRAFT' %}
-                                        <a href="{% url 'report_edit' report.pk %}" class="btn btn-sm btn-info text-dark">Edit</a>
-                                        <a href="{% url 'report_delete' report.pk %}" class="btn btn-sm btn-danger">Hapus</a>
+                                        <a
+                                            href="{% url 'report_edit' report.pk %}"
+                                            class="btn btn-sm btn-info"
+                                            title="Edit draft laporan">
+                                            <i class="bi bi-pencil-square"></i>
+                                            Edit
+                                        </a>
+
+                                        <a
+                                            href="{% url 'report_delete' report.pk %}"
+                                            class="btn btn-sm btn-outline-danger"
+                                            title="Hapus draft laporan">
+                                            <i class="bi bi-trash"></i>
+                                            Hapus
+                                        </a>
                                     {% endif %}
 
                                     {% if user.is_authenticated and user.is_admin %}
                                         {% if report.status == 'REPORTED' %}
-                                        <form method="post" action="{% url 'report_update_status' report.pk %}" class="d-inline">
+                                        <form method="post" action="{% url 'report_update_status' report.pk %}" class="inline-form">
                                             {% csrf_token %}
                                             <input type="hidden" name="status" value="VERIFIED">
-                                            <button type="submit" class="btn btn-sm btn-primary" onclick="return confirm('Ubah status laporan menjadi VERIFIED?')">
+                                            <button
+                                                type="submit"
+                                                class="btn btn-sm btn-primary"
+                                                title="Verifikasi laporan"
+                                                onclick="return confirm('Ubah status laporan menjadi VERIFIED?')">
+                                                <i class="bi bi-shield-check"></i>
                                                 Verifikasi
                                             </button>
                                         </form>
                                         {% elif report.status == 'VERIFIED' %}
-                                        <form method="post" action="{% url 'report_update_status' report.pk %}" class="d-inline">
+                                        <form method="post" action="{% url 'report_update_status' report.pk %}" class="inline-form">
                                             {% csrf_token %}
                                             <input type="hidden" name="status" value="IN_PROGRESS">
-                                            <button type="submit" class="btn btn-sm btn-warning text-dark" onclick="return confirm('Ubah status laporan menjadi IN_PROGRESS?')">
+                                            <button
+                                                type="submit"
+                                                class="btn btn-sm btn-warning"
+                                                title="Proses laporan"
+                                                onclick="return confirm('Ubah status laporan menjadi IN_PROGRESS?')">
+                                                <i class="bi bi-gear"></i>
                                                 Proses
                                             </button>
                                         </form>
                                         {% elif report.status == 'IN_PROGRESS' %}
-                                        <form method="post" action="{% url 'report_update_status' report.pk %}" class="d-inline">
+                                        <form method="post" action="{% url 'report_update_status' report.pk %}" class="inline-form">
                                             {% csrf_token %}
                                             <input type="hidden" name="status" value="RESOLVED">
-                                            <button type="submit" class="btn btn-sm btn-success" onclick="return confirm('Tandai laporan sebagai RESOLVED?')">
+                                            <button
+                                                type="submit"
+                                                class="btn btn-sm btn-success"
+                                                title="Selesaikan laporan"
+                                                onclick="return confirm('Tandai laporan sebagai RESOLVED?')">
+                                                <i class="bi bi-check-circle"></i>
                                                 Selesaikan
                                             </button>
                                         </form>
                                         {% elif report.status == 'RESOLVED' %}
-                                        <span class="text-success small fw-semibold">Laporan selesai</span>
+                                        <span class="resolved-text">
+                                            <i class="bi bi-patch-check"></i>
+                                            Laporan selesai
+                                        </span>
                                         {% endif %}
                                     {% endif %}
                                 </div>
@@ -119,50 +171,71 @@
                         {% endfor %}
                     {% else %}
                         <tr>
-                            <td colspan="4" class="text-center text-secondary">Belum ada laporan.</td>
+                            <td colspan="4">
+                                <div class="empty-table-state">
+                                    <i class="bi bi-cloud-fog2"></i>
+                                    <strong>Belum ada laporan</strong>
+                                    <span>Data laporan akan muncul setelah warga membuat laporan baru.</span>
+                                </div>
+                            </td>
                         </tr>
                     {% endif %}
                 </tbody>
             </table>
         </div>
     </div>
-</div>
+</section>
 
-<div class="modal fade" id="reportDetailModal" tabindex="-1" aria-labelledby="reportDetailModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header border-secondary">
-                <h5 class="modal-title" id="reportDetailModalLabel">Detail Laporan</h5>
-                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+<div class="report-modal" id="reportDetailModal" aria-hidden="true">
+    <div class="report-modal-backdrop" data-modal-close></div>
+
+    <div class="report-modal-dialog" role="dialog" aria-modal="true" aria-labelledby="reportDetailModalLabel">
+        <div class="report-modal-content">
+            <div class="report-modal-header">
+                <div>
+                    <span class="modal-kicker">Report Detail</span>
+                    <h2 id="reportDetailModalLabel">Detail Laporan</h2>
+                </div>
+
+                <button type="button" class="modal-close-btn" data-modal-close aria-label="Tutup modal">
+                    <i class="bi bi-x-lg"></i>
+                </button>
             </div>
 
-            <div class="modal-body">
-                <div id="modalLoading" class="text-secondary">Memuat detail laporan...</div>
+            <div class="report-modal-body">
+                <div id="modalLoading" class="modal-loading">
+                    <span class="loading-spinner"></span>
+                    Memuat detail laporan...
+                </div>
 
-                <div id="modalContent" style="display: none;">
-                    <div class="mb-3">
-                        <h4 id="modalTitle" class="mb-1"></h4>
-                        <span id="modalStatus"></span>
+                <div id="modalContent" class="modal-detail-content" hidden>
+                    <div class="modal-detail-top">
+                        <div>
+                            <h3 id="modalTitle"></h3>
+                            <span id="modalStatus"></span>
+                        </div>
                     </div>
 
-                    <div class="mb-3">
-                        <strong>Kategori:</strong>
-                        <div id="modalCategory" class="text-secondary"></div>
+                    <div class="detail-grid">
+                        <div class="detail-item">
+                            <span>Kategori</span>
+                            <strong id="modalCategory"></strong>
+                        </div>
+
+                        <div class="detail-item">
+                            <span>Lokasi</span>
+                            <strong id="modalLocation"></strong>
+                        </div>
+
+                        <div class="detail-item">
+                            <span>Tanggal Dibuat</span>
+                            <strong id="modalCreatedAt"></strong>
+                        </div>
                     </div>
 
-                    <div class="mb-3">
-                        <strong>Lokasi:</strong>
-                        <div id="modalLocation" class="text-secondary"></div>
-                    </div>
-
-                    <div class="mb-3">
-                        <strong>Tanggal Dibuat:</strong>
-                        <div id="modalCreatedAt" class="text-secondary"></div>
-                    </div>
-
-                    <div class="mb-0">
-                        <strong>Deskripsi:</strong>
-                        <div id="modalDescription" class="text-secondary mt-1"></div>
+                    <div class="detail-description">
+                        <span>Deskripsi</span>
+                        <p id="modalDescription"></p>
                     </div>
                 </div>
             </div>
@@ -177,6 +250,9 @@ document.addEventListener('DOMContentLoaded', function () {
     const searchInput = document.getElementById('searchInput');
     const tableBody = document.getElementById('reportTableBody');
     const csrfToken = '{{ csrf_token }}';
+    const reportModal = document.getElementById('reportDetailModal');
+    const modalLoading = document.getElementById('modalLoading');
+    const modalContent = document.getElementById('modalContent');
 
     let debounceTimer;
 
@@ -192,27 +268,15 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     function getStatusBadge(status) {
-        if (status === 'DRAFT') {
-            return '<span class="badge bg-secondary">Draft</span>';
-        }
+        const statusMap = {
+            DRAFT: '<span class="badge badge-draft">Draft</span>',
+            REPORTED: '<span class="badge badge-reported status-reported">Reported</span>',
+            VERIFIED: '<span class="badge badge-verified status-verified">Verified</span>',
+            IN_PROGRESS: '<span class="badge badge-progress">In Progress</span>',
+            RESOLVED: '<span class="badge badge-resolved">Resolved</span>'
+        };
 
-        if (status === 'REPORTED') {
-            return '<span class="badge bg-secondary">Reported</span>';
-        }
-
-        if (status === 'VERIFIED') {
-            return '<span class="badge bg-primary">Verified</span>';
-        }
-
-        if (status === 'IN_PROGRESS') {
-            return '<span class="badge bg-warning text-dark">In Progress</span>';
-        }
-
-        if (status === 'RESOLVED') {
-            return '<span class="badge bg-success">Resolved</span>';
-        }
-
-        return escapeHTML(status);
+        return statusMap[status] || `<span class="badge bg-secondary">${escapeHTML(status)}</span>`;
     }
 
     function getWorkflowButtons(report) {
@@ -222,10 +286,11 @@ document.addEventListener('DOMContentLoaded', function () {
 
         if (report.status === 'REPORTED') {
             return `
-                <form method="post" action="/update-status/${report.id}/" class="d-inline">
+                <form method="post" action="/update-status/${report.id}/" class="inline-form">
                     <input type="hidden" name="csrfmiddlewaretoken" value="${csrfToken}">
                     <input type="hidden" name="status" value="VERIFIED">
-                    <button type="submit" class="btn btn-sm btn-primary" onclick="return confirm('Ubah status laporan menjadi VERIFIED?')">
+                    <button type="submit" class="btn btn-sm btn-primary" title="Verifikasi laporan" onclick="return confirm('Ubah status laporan menjadi VERIFIED?')">
+                        <i class="bi bi-shield-check"></i>
                         Verifikasi
                     </button>
                 </form>
@@ -234,10 +299,11 @@ document.addEventListener('DOMContentLoaded', function () {
 
         if (report.status === 'VERIFIED') {
             return `
-                <form method="post" action="/update-status/${report.id}/" class="d-inline">
+                <form method="post" action="/update-status/${report.id}/" class="inline-form">
                     <input type="hidden" name="csrfmiddlewaretoken" value="${csrfToken}">
                     <input type="hidden" name="status" value="IN_PROGRESS">
-                    <button type="submit" class="btn btn-sm btn-warning text-dark" onclick="return confirm('Ubah status laporan menjadi IN_PROGRESS?')">
+                    <button type="submit" class="btn btn-sm btn-warning" title="Proses laporan" onclick="return confirm('Ubah status laporan menjadi IN_PROGRESS?')">
+                        <i class="bi bi-gear"></i>
                         Proses
                     </button>
                 </form>
@@ -246,13 +312,23 @@ document.addEventListener('DOMContentLoaded', function () {
 
         if (report.status === 'IN_PROGRESS') {
             return `
-                <form method="post" action="/update-status/${report.id}/" class="d-inline">
+                <form method="post" action="/update-status/${report.id}/" class="inline-form">
                     <input type="hidden" name="csrfmiddlewaretoken" value="${csrfToken}">
                     <input type="hidden" name="status" value="RESOLVED">
-                    <button type="submit" class="btn btn-sm btn-success" onclick="return confirm('Tandai laporan sebagai RESOLVED?')">
+                    <button type="submit" class="btn btn-sm btn-success" title="Selesaikan laporan" onclick="return confirm('Tandai laporan sebagai RESOLVED?')">
+                        <i class="bi bi-check-circle"></i>
                         Selesaikan
                     </button>
                 </form>
+            `;
+        }
+
+        if (report.status === 'RESOLVED') {
+            return `
+                <span class="resolved-text">
+                    <i class="bi bi-patch-check"></i>
+                    Laporan selesai
+                </span>
             `;
         }
 
@@ -262,29 +338,46 @@ document.addEventListener('DOMContentLoaded', function () {
     function renderReports(reports) {
         tableBody.innerHTML = '';
 
-        if (reports.length === 0) {
+        if (!reports || reports.length === 0) {
             tableBody.innerHTML = `
                 <tr>
-                    <td colspan="4" class="text-center text-secondary">Data tidak ditemukan.</td>
+                    <td colspan="4">
+                        <div class="empty-table-state">
+                            <i class="bi bi-search"></i>
+                            <strong>Data tidak ditemukan</strong>
+                            <span>Coba gunakan kata kunci pencarian yang lain.</span>
+                        </div>
+                    </td>
                 </tr>
             `;
             return;
         }
 
-        reports.forEach(report => {
+        reports.forEach(function (report) {
             let actionButtons = `
-                <div class="d-flex flex-wrap gap-2">
-                    <button type="button" class="btn btn-sm btn-outline-light detail-btn" data-id="${report.id}">
+                <div class="action-group">
+                    <button type="button" class="btn btn-sm btn-outline-light detail-btn" data-id="${report.id}" title="Lihat detail laporan">
+                        <i class="bi bi-eye"></i>
                         Detail
                     </button>
             `;
 
             if (report.can_edit) {
-                actionButtons += `<a href="/edit/${report.id}/" class="btn btn-sm btn-info text-dark">Edit</a>`;
+                actionButtons += `
+                    <a href="/edit/${report.id}/" class="btn btn-sm btn-info" title="Edit draft laporan">
+                        <i class="bi bi-pencil-square"></i>
+                        Edit
+                    </a>
+                `;
             }
 
             if (report.can_delete) {
-                actionButtons += `<a href="/delete/${report.id}/" class="btn btn-sm btn-danger">Hapus</a>`;
+                actionButtons += `
+                    <a href="/delete/${report.id}/" class="btn btn-sm btn-outline-danger" title="Hapus draft laporan">
+                        <i class="bi bi-trash"></i>
+                        Hapus
+                    </a>
+                `;
             }
 
             actionButtons += getWorkflowButtons(report);
@@ -293,10 +386,17 @@ document.addEventListener('DOMContentLoaded', function () {
             tableBody.innerHTML += `
                 <tr>
                     <td>
-                        <strong>${escapeHTML(report.title)}</strong><br>
-                        <small class="text-secondary">${escapeHTML(report.category)}</small>
+                        <div class="report-title-cell">
+                            <strong>${escapeHTML(report.title)}</strong>
+                            <span>${escapeHTML(report.category)}</span>
+                        </div>
                     </td>
-                    <td>${escapeHTML(report.location)}</td>
+                    <td>
+                        <div class="report-location-cell">
+                            <i class="bi bi-geo-alt"></i>
+                            <span>${escapeHTML(report.location)}</span>
+                        </div>
+                    </td>
                     <td>${getStatusBadge(report.status)}</td>
                     <td>${actionButtons}</td>
                 </tr>
@@ -304,44 +404,71 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    searchInput.addEventListener('input', function () {
-        clearTimeout(debounceTimer);
+    function openModal() {
+        reportModal.classList.add('show');
+        reportModal.setAttribute('aria-hidden', 'false');
+        document.body.classList.add('modal-open');
+    }
 
-        debounceTimer = setTimeout(() => {
-            const keyword = searchInput.value.trim();
+    function closeModal() {
+        reportModal.classList.remove('show');
+        reportModal.setAttribute('aria-hidden', 'true');
+        document.body.classList.remove('modal-open');
+    }
 
-            fetch(`/api/search/?q=${encodeURIComponent(keyword)}`)
-                .then(response => response.json())
-                .then(data => {
-                    renderReports(data.reports);
-                })
-                .catch(error => {
-                    console.error('Gagal mengambil data search:', error);
-                });
-        }, 300);
-    });
+    function resetModal() {
+        modalLoading.hidden = false;
+        modalLoading.innerHTML = '<span class="loading-spinner"></span> Memuat detail laporan...';
+        modalContent.hidden = true;
+    }
 
-    document.addEventListener('click', function (e) {
-        const detailBtn = e.target.closest('.detail-btn');
+    if (searchInput) {
+        searchInput.addEventListener('input', function () {
+            clearTimeout(debounceTimer);
+
+            debounceTimer = setTimeout(function () {
+                const keyword = searchInput.value.trim();
+
+                fetch(`/api/search/?q=${encodeURIComponent(keyword)}`)
+                    .then(function (response) {
+                        return response.json();
+                    })
+                    .then(function (data) {
+                        renderReports(data.reports);
+                    })
+                    .catch(function (error) {
+                        console.error('Gagal mengambil data search:', error);
+                    });
+            }, 300);
+        });
+    }
+
+    document.addEventListener('click', function (event) {
+        const closeTarget = event.target.closest('[data-modal-close]');
+
+        if (closeTarget) {
+            closeModal();
+            return;
+        }
+
+        const detailBtn = event.target.closest('.detail-btn');
 
         if (!detailBtn) return;
 
         const reportId = detailBtn.dataset.id;
-        const modalElement = document.getElementById('reportDetailModal');
-        const modal = new bootstrap.Modal(modalElement);
 
-        const modalLoading = document.getElementById('modalLoading');
-        const modalContent = document.getElementById('modalContent');
-
-        modalLoading.style.display = 'block';
-        modalContent.style.display = 'none';
-        modalLoading.textContent = 'Memuat detail laporan...';
-
-        modal.show();
+        resetModal();
+        openModal();
 
         fetch(`/ajax/report/${reportId}/`)
-            .then(response => response.json())
-            .then(data => {
+            .then(function (response) {
+                if (!response.ok) {
+                    throw new Error('Gagal memuat detail laporan.');
+                }
+
+                return response.json();
+            })
+            .then(function (data) {
                 document.getElementById('modalTitle').textContent = data.title;
                 document.getElementById('modalCategory').textContent = data.category;
                 document.getElementById('modalLocation').textContent = data.location;
@@ -349,13 +476,19 @@ document.addEventListener('DOMContentLoaded', function () {
                 document.getElementById('modalDescription').textContent = data.description;
                 document.getElementById('modalStatus').innerHTML = getStatusBadge(data.status);
 
-                modalLoading.style.display = 'none';
-                modalContent.style.display = 'block';
+                modalLoading.hidden = true;
+                modalContent.hidden = false;
             })
-            .catch(error => {
+            .catch(function (error) {
                 console.error('Gagal mengambil detail laporan:', error);
-                modalLoading.textContent = 'Gagal memuat detail laporan.';
+                modalLoading.innerHTML = 'Gagal memuat detail laporan.';
             });
+    });
+
+    document.addEventListener('keydown', function (event) {
+        if (event.key === 'Escape') {
+            closeModal();
+        }
     });
 });
 </script>

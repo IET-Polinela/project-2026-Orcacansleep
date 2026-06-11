@@ -3,40 +3,105 @@
 {% block title %}Dashboard | Silent Hill Portal{% endblock %}
 
 {% block content %}
-<div class="mb-4">
-    <h1 class="page-title mb-2">Dashboard</h1>
-    <p class="page-subtitle mb-0">
-        Ringkasan statistik laporan kota secara visual dan dinamis.
+<section class="section-header" data-animate>
+    <h1 class="page-title">Dashboard</h1>
+    <p class="page-subtitle">
+        Ringkasan visual laporan kota berdasarkan status, kategori, dan data terbaru yang masuk ke sistem.
     </p>
-</div>
+</section>
 
-<div class="row g-4 mb-4">
+<section class="dashboard-grid" data-animate>
+    <div class="metric-card">
+        <div class="metric-icon">
+            <i class="bi bi-clipboard-data"></i>
+        </div>
+        <span class="metric-value" id="totalReports">0</span>
+        <span class="metric-label">Total Laporan</span>
+    </div>
+
+    <div class="metric-card">
+        <div class="metric-icon">
+            <i class="bi bi-broadcast"></i>
+        </div>
+        <span class="metric-value" id="reportedReports">0</span>
+        <span class="metric-label">Reported</span>
+    </div>
+
+    <div class="metric-card">
+        <div class="metric-icon">
+            <i class="bi bi-shield-check"></i>
+        </div>
+        <span class="metric-value" id="verifiedReports">0</span>
+        <span class="metric-label">Verified</span>
+    </div>
+
+    <div class="metric-card">
+        <div class="metric-icon">
+            <i class="bi bi-check-circle"></i>
+        </div>
+        <span class="metric-value" id="resolvedReports">0</span>
+        <span class="metric-label">Resolved</span>
+    </div>
+</section>
+
+<section class="row" data-animate>
     <div class="col-lg-5">
-        <div class="card shadow-sm h-100">
+        <div class="glass-card chart-card h-100">
             <div class="card-body">
-                <h5 class="mb-3">Distribusi Status Laporan</h5>
-                <canvas id="statusChart"></canvas>
+                <div class="dashboard-card-header">
+                    <div>
+                        <h2 class="dashboard-card-title">Distribusi Status</h2>
+                        <p class="dashboard-card-subtitle">Jumlah laporan berdasarkan tahap penanganan.</p>
+                    </div>
+                    <span class="dashboard-card-icon">
+                        <i class="bi bi-pie-chart"></i>
+                    </span>
+                </div>
+
+                <div class="chart-wrapper">
+                    <canvas id="statusChart"></canvas>
+                </div>
             </div>
         </div>
     </div>
 
     <div class="col-lg-7">
-        <div class="card shadow-sm h-100">
+        <div class="glass-card chart-card h-100">
             <div class="card-body">
-                <h5 class="mb-3">Distribusi Kategori Laporan</h5>
-                <canvas id="categoryChart"></canvas>
+                <div class="dashboard-card-header">
+                    <div>
+                        <h2 class="dashboard-card-title">Distribusi Kategori</h2>
+                        <p class="dashboard-card-subtitle">Kategori yang paling sering dilaporkan warga.</p>
+                    </div>
+                    <span class="dashboard-card-icon">
+                        <i class="bi bi-bar-chart"></i>
+                    </span>
+                </div>
+
+                <div class="chart-wrapper">
+                    <canvas id="categoryChart"></canvas>
+                </div>
             </div>
         </div>
     </div>
-</div>
+</section>
 
-<div class="row g-4">
+<section class="row mt-4" data-animate>
     <div class="col-lg-6">
-        <div class="card shadow-sm h-100">
+        <div class="glass-card h-100">
             <div class="card-body">
-                <h5 class="mb-3">5 Laporan Terakhir - REPORTED</h5>
+                <div class="dashboard-card-header">
+                    <div>
+                        <h2 class="dashboard-card-title">Laporan Terbaru</h2>
+                        <p class="dashboard-card-subtitle">5 laporan terakhir dengan status reported.</p>
+                    </div>
+                    <span class="dashboard-card-icon">
+                        <i class="bi bi-hourglass-split"></i>
+                    </span>
+                </div>
+
                 <div class="table-responsive">
-                    <table class="table table-dark table-hover align-middle mb-0">
+                    <table class="table dashboard-table">
                         <thead>
                             <tr>
                                 <th>Judul</th>
@@ -47,7 +112,9 @@
                         </thead>
                         <tbody id="reportedTableBody">
                             <tr>
-                                <td colspan="4" class="text-center text-secondary">Memuat data...</td>
+                                <td colspan="4" class="text-center text-secondary">
+                                    Memuat data laporan...
+                                </td>
                             </tr>
                         </tbody>
                     </table>
@@ -57,11 +124,20 @@
     </div>
 
     <div class="col-lg-6">
-        <div class="card shadow-sm h-100">
+        <div class="glass-card h-100">
             <div class="card-body">
-                <h5 class="mb-3">5 Laporan Terakhir - RESOLVED</h5>
+                <div class="dashboard-card-header">
+                    <div>
+                        <h2 class="dashboard-card-title">Laporan Selesai</h2>
+                        <p class="dashboard-card-subtitle">5 laporan terakhir yang sudah terselesaikan.</p>
+                    </div>
+                    <span class="dashboard-card-icon">
+                        <i class="bi bi-patch-check"></i>
+                    </span>
+                </div>
+
                 <div class="table-responsive">
-                    <table class="table table-dark table-hover align-middle mb-0">
+                    <table class="table dashboard-table">
                         <thead>
                             <tr>
                                 <th>Judul</th>
@@ -72,7 +148,9 @@
                         </thead>
                         <tbody id="resolvedTableBody">
                             <tr>
-                                <td colspan="4" class="text-center text-secondary">Memuat data...</td>
+                                <td colspan="4" class="text-center text-secondary">
+                                    Memuat data laporan...
+                                </td>
                             </tr>
                         </tbody>
                     </table>
@@ -80,111 +158,321 @@
             </div>
         </div>
     </div>
-</div>
+</section>
 {% endblock %}
 
 {% block extra_js %}
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
 document.addEventListener('DOMContentLoaded', function () {
-    fetch('/dashboard/api/stats/')
-        .then(response => response.json())
-        .then(data => {
-            console.log('Dashboard JSON:', data);
+    loadDashboardStats();
+});
 
-            const statusCtx = document.getElementById('statusChart').getContext('2d');
-            new Chart(statusCtx, {
-                type: 'doughnut',
-                data: {
-                    labels: data.status_labels,
-                    datasets: [{
-                        data: data.status_values,
-                        backgroundColor: [
-                            '#6c757d',
-                            '#0d6efd',
-                            '#ffc107',
-                            '#198754'
-                        ],
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    plugins: {
-                        legend: {
-                            labels: {
-                                color: '#e9e9e9'
-                            }
+function loadDashboardStats() {
+    fetch('/dashboard/api/stats/')
+        .then(function (response) {
+            if (!response.ok) {
+                throw new Error('Gagal mengambil data dashboard.');
+            }
+
+            return response.json();
+        })
+        .then(function (data) {
+            const normalizedStatus = normalizeStatusData(data.status_labels, data.status_values);
+
+            renderMetricCards(normalizedStatus);
+            renderStatusChart(data.status_labels, data.status_values);
+            renderCategoryChart(data.category_labels, data.category_values);
+            renderLatestTable('reportedTableBody', data.latest_reported, 'REPORTED');
+            renderLatestTable('resolvedTableBody', data.latest_resolved, 'RESOLVED');
+        })
+        .catch(function (error) {
+            console.error('Dashboard error:', error);
+            renderDashboardError();
+        });
+}
+
+function normalizeStatusData(labels, values) {
+    const result = {
+        DRAFT: 0,
+        REPORTED: 0,
+        VERIFIED: 0,
+        IN_PROGRESS: 0,
+        RESOLVED: 0
+    };
+
+    labels.forEach(function (label, index) {
+        result[label] = values[index] || 0;
+    });
+
+    return result;
+}
+
+function renderMetricCards(statusData) {
+    const total =
+        statusData.DRAFT +
+        statusData.REPORTED +
+        statusData.VERIFIED +
+        statusData.IN_PROGRESS +
+        statusData.RESOLVED;
+
+    animateCounter('totalReports', total);
+    animateCounter('reportedReports', statusData.REPORTED);
+    animateCounter('verifiedReports', statusData.VERIFIED);
+    animateCounter('resolvedReports', statusData.RESOLVED);
+}
+
+function renderStatusChart(labels, values) {
+    const chartElement = document.getElementById('statusChart');
+
+    if (!chartElement) return;
+
+    new Chart(chartElement, {
+        type: 'doughnut',
+        data: {
+            labels: labels.map(formatStatusLabel),
+            datasets: [{
+                data: values,
+                backgroundColor: labels.map(getStatusColor),
+                borderColor: '#0b0b0b',
+                borderWidth: 3,
+                hoverOffset: 10
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            cutout: '64%',
+            plugins: {
+                legend: {
+                    position: 'bottom',
+                    labels: {
+                        color: '#d8d8d8',
+                        padding: 18,
+                        usePointStyle: true,
+                        pointStyle: 'circle',
+                        font: {
+                            family: 'Inter',
+                            size: 12,
+                            weight: '600'
                         }
                     }
-                }
-            });
-
-            const categoryCtx = document.getElementById('categoryChart').getContext('2d');
-            new Chart(categoryCtx, {
-                type: 'bar',
-                data: {
-                    labels: data.category_labels,
-                    datasets: [{
-                        label: 'Jumlah Laporan',
-                        data: data.category_values,
-                        backgroundColor: '#8b0000',
-                        borderColor: '#a40000',
-                        borderWidth: 1
-                    }]
                 },
-                options: {
-                    scales: {
-                        x: {
-                            ticks: { color: '#e9e9e9' },
-                            grid: { color: '#2a2a2a' }
-                        },
-                        y: {
-                            beginAtZero: true,
-                            ticks: { color: '#e9e9e9' },
-                            grid: { color: '#2a2a2a' }
+                tooltip: {
+                    backgroundColor: 'rgba(10, 10, 10, 0.92)',
+                    titleColor: '#ffffff',
+                    bodyColor: '#d8d8d8',
+                    borderColor: 'rgba(192, 57, 43, 0.45)',
+                    borderWidth: 1,
+                    padding: 12
+                }
+            }
+        }
+    });
+}
+
+function renderCategoryChart(labels, values) {
+    const chartElement = document.getElementById('categoryChart');
+
+    if (!chartElement) return;
+
+    new Chart(chartElement, {
+        type: 'bar',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'Jumlah Laporan',
+                data: values,
+                backgroundColor: 'rgba(192, 57, 43, 0.72)',
+                borderColor: 'rgba(255, 140, 130, 0.75)',
+                borderWidth: 1,
+                borderRadius: 8,
+                maxBarThickness: 46
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                x: {
+                    ticks: {
+                        color: '#d8d8d8',
+                        font: {
+                            family: 'Inter',
+                            size: 11,
+                            weight: '600'
                         }
                     },
-                    plugins: {
-                        legend: {
-                            labels: {
-                                color: '#e9e9e9'
-                            }
+                    grid: {
+                        color: 'rgba(255, 255, 255, 0.06)'
+                    }
+                },
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        color: '#d8d8d8',
+                        precision: 0,
+                        font: {
+                            family: 'Inter',
+                            size: 11,
+                            weight: '600'
                         }
+                    },
+                    grid: {
+                        color: 'rgba(255, 255, 255, 0.07)'
                     }
                 }
-            });
+            },
+            plugins: {
+                legend: {
+                    labels: {
+                        color: '#d8d8d8',
+                        font: {
+                            family: 'Inter',
+                            size: 12,
+                            weight: '600'
+                        }
+                    }
+                },
+                tooltip: {
+                    backgroundColor: 'rgba(10, 10, 10, 0.92)',
+                    titleColor: '#ffffff',
+                    bodyColor: '#d8d8d8',
+                    borderColor: 'rgba(192, 57, 43, 0.45)',
+                    borderWidth: 1,
+                    padding: 12
+                }
+            }
+        }
+    });
+}
 
-            const reportedTableBody = document.getElementById('reportedTableBody');
-            reportedTableBody.innerHTML = '';
+function renderLatestTable(elementId, reports, emptyStatus) {
+    const tableBody = document.getElementById(elementId);
 
-            data.latest_reported.forEach(report => {
-                reportedTableBody.innerHTML += `
-                    <tr>
-                        <td>${report.title}</td>
-                        <td>${report.category}</td>
-                        <td>${report.location}</td>
-                        <td><span class="badge bg-secondary">${report.status}</span></td>
-                    </tr>
-                `;
-            });
+    if (!tableBody) return;
 
-            const resolvedTableBody = document.getElementById('resolvedTableBody');
-            resolvedTableBody.innerHTML = '';
+    tableBody.innerHTML = '';
 
-            data.latest_resolved.forEach(report => {
-                resolvedTableBody.innerHTML += `
-                    <tr>
-                        <td>${report.title}</td>
-                        <td>${report.category}</td>
-                        <td>${report.location}</td>
-                        <td><span class="badge bg-success">${report.status}</span></td>
-                    </tr>
-                `;
-            });
-        })
-        .catch(error => {
-            console.error('Gagal mengambil data dashboard:', error);
-        });
-});
+    if (!reports || reports.length === 0) {
+        tableBody.innerHTML = `
+            <tr>
+                <td colspan="4" class="text-center text-secondary">
+                    Belum ada laporan dengan status ${escapeHTML(emptyStatus)}.
+                </td>
+            </tr>
+        `;
+        return;
+    }
+
+    reports.forEach(function (report) {
+        tableBody.innerHTML += `
+            <tr>
+                <td>
+                    <strong>${escapeHTML(report.title)}</strong>
+                    <span class="table-date">${escapeHTML(report.created_at)}</span>
+                </td>
+                <td>${escapeHTML(report.category)}</td>
+                <td>${escapeHTML(report.location)}</td>
+                <td>${getStatusBadge(report.status)}</td>
+            </tr>
+        `;
+    });
+}
+
+function getStatusBadge(status) {
+    const label = formatStatusLabel(status);
+    const className = getStatusClass(status);
+
+    return `<span class="badge ${className}">${label}</span>`;
+}
+
+function formatStatusLabel(status) {
+    const statusMap = {
+        DRAFT: 'Draft',
+        REPORTED: 'Reported',
+        VERIFIED: 'Verified',
+        IN_PROGRESS: 'In Progress',
+        RESOLVED: 'Resolved'
+    };
+
+    return statusMap[status] || status || '-';
+}
+
+function getStatusClass(status) {
+    const statusClassMap = {
+        DRAFT: 'bg-secondary',
+        REPORTED: 'bg-primary status-reported',
+        VERIFIED: 'bg-warning status-verified',
+        IN_PROGRESS: 'bg-primary',
+        RESOLVED: 'bg-success'
+    };
+
+    return statusClassMap[status] || 'bg-secondary';
+}
+
+function getStatusColor(status) {
+    const colorMap = {
+        DRAFT: 'rgba(130, 130, 130, 0.82)',
+        REPORTED: 'rgba(47, 111, 163, 0.88)',
+        VERIFIED: 'rgba(184, 134, 11, 0.90)',
+        IN_PROGRESS: 'rgba(192, 57, 43, 0.82)',
+        RESOLVED: 'rgba(46, 139, 87, 0.88)'
+    };
+
+    return colorMap[status] || 'rgba(130, 130, 130, 0.82)';
+}
+
+function animateCounter(elementId, targetValue) {
+    const element = document.getElementById(elementId);
+
+    if (!element) return;
+
+    const duration = 700;
+    const startTime = performance.now();
+    const startValue = 0;
+
+    function updateCounter(currentTime) {
+        const elapsed = currentTime - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+        const currentValue = Math.floor(startValue + (targetValue - startValue) * progress);
+
+        element.textContent = currentValue;
+
+        if (progress < 1) {
+            requestAnimationFrame(updateCounter);
+        } else {
+            element.textContent = targetValue;
+        }
+    }
+
+    requestAnimationFrame(updateCounter);
+}
+
+function renderDashboardError() {
+    const reportedTableBody = document.getElementById('reportedTableBody');
+    const resolvedTableBody = document.getElementById('resolvedTableBody');
+
+    const errorRow = `
+        <tr>
+            <td colspan="4" class="text-center text-secondary">
+                Data dashboard gagal dimuat.
+            </td>
+        </tr>
+    `;
+
+    if (reportedTableBody) reportedTableBody.innerHTML = errorRow;
+    if (resolvedTableBody) resolvedTableBody.innerHTML = errorRow;
+}
+
+function escapeHTML(value) {
+    if (value === null || value === undefined) return '';
+
+    return String(value)
+        .replaceAll('&', '&amp;')
+        .replaceAll('<', '&lt;')
+        .replaceAll('>', '&gt;')
+        .replaceAll('"', '&quot;')
+        .replaceAll("'", '&#039;');
+}
 </script>
 {% endblock %}

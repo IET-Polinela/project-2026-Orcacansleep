@@ -5,62 +5,141 @@
 {% block content %}
 <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
-        <li class="breadcrumb-item"><a href="{% url 'report_list' %}">Reports</a></li>
+        <li class="breadcrumb-item">
+            <a href="{% url 'home' %}">Home</a>
+        </li>
+        <li class="breadcrumb-item">
+            <a href="{% url 'report_list' %}">Reports</a>
+        </li>
         <li class="breadcrumb-item active" aria-current="page">Edit Laporan</li>
     </ol>
 </nav>
 
-<div class="row justify-content-center">
-    <div class="col-lg-8">
-        <div class="card shadow-sm">
-            <div class="card-body p-4">
-                <h1 class="page-title mb-2">Edit Laporan</h1>
-                <p class="page-subtitle mb-4">Perbarui data laporan sesuai kondisi terbaru.</p>
+<section class="form-page-layout">
+    <div class="form-side-panel glass-card">
+        <div class="card-body">
+            <div class="form-side-icon">
+                <i class="bi bi-pencil"></i>
+            </div>
 
-                <form method="POST" id="editForm">
-                    {% csrf_token %}
+            <h1>Edit Draft</h1>
 
-                    <div class="mb-3">
-                        <label for="{{ form.title.id_for_label }}" class="form-label">Judul</label>
-                        {{ form.title }}
-                    </div>
+            <p>
+                Perbarui informasi laporan sebelum diajukan. Setelah laporan diajukan,
+                isi laporan tidak dapat diedit kembali oleh warga.
+            </p>
 
-                    <div class="mb-3">
-                        <label for="{{ form.category.id_for_label }}" class="form-label">Kategori</label>
-                        {{ form.category }}
-                    </div>
+            <div class="form-note-list">
+                <div class="form-note-item">
+                    <i class="bi bi-info-circle"></i>
+                    <span>Pastikan lokasi kejadian sudah benar.</span>
+                </div>
 
-                    <div class="mb-3">
-                        <label for="{{ form.description.id_for_label }}" class="form-label">Deskripsi</label>
-                        {{ form.description }}
-                    </div>
+                <div class="form-note-item">
+                    <i class="bi bi-info-circle"></i>
+                    <span>Deskripsi sebaiknya menjelaskan kondisi secara rinci.</span>
+                </div>
 
-                    <div class="mb-4">
-                        <label for="{{ form.location.id_for_label }}" class="form-label">Lokasi</label>
-                        {{ form.location }}
-                    </div>
-
-                    <div class="d-flex flex-wrap gap-2">
-                        <button type="submit" class="btn btn-warning text-dark" id="updateBtn">
-                            <span id="updateText">Update Laporan</span>
-                        </button>
-                        <a href="{% url 'report_list' %}" class="btn btn-outline-fog">Kembali</a>
-                    </div>
-                </form>
+                <div class="form-note-item">
+                    <i class="bi bi-info-circle"></i>
+                    <span>Draft masih bisa diperbarui sebelum diajukan.</span>
+                </div>
             </div>
         </div>
     </div>
-</div>
+
+    <div class="form-main-panel glass-card">
+        <div class="card-body">
+            <div class="section-header form-section-header">
+                <h2 class="form-title">Perbarui Laporan</h2>
+                <p class="page-subtitle">
+                    Sesuaikan data laporan berdasarkan informasi terbaru.
+                </p>
+            </div>
+
+            <form method="POST" id="editForm" class="report-form">
+                {% csrf_token %}
+
+                {% if form.non_field_errors %}
+                    <div class="form-alert">
+                        {{ form.non_field_errors }}
+                    </div>
+                {% endif %}
+
+                <div class="form-group">
+                    <label for="{{ form.title.id_for_label }}" class="form-label">
+                        <i class="bi bi-type"></i>
+                        Judul Laporan
+                    </label>
+                    {{ form.title }}
+                    {% if form.title.errors %}
+                        <div class="form-error">{{ form.title.errors }}</div>
+                    {% endif %}
+                </div>
+
+                <div class="form-group">
+                    <label for="{{ form.category.id_for_label }}" class="form-label">
+                        <i class="bi bi-tags"></i>
+                        Kategori
+                    </label>
+                    {{ form.category }}
+                    {% if form.category.errors %}
+                        <div class="form-error">{{ form.category.errors }}</div>
+                    {% endif %}
+                </div>
+
+                <div class="form-group">
+                    <label for="{{ form.location.id_for_label }}" class="form-label">
+                        <i class="bi bi-geo-alt"></i>
+                        Lokasi Kejadian
+                    </label>
+                    {{ form.location }}
+                    {% if form.location.errors %}
+                        <div class="form-error">{{ form.location.errors }}</div>
+                    {% endif %}
+                </div>
+
+                <div class="form-group">
+                    <label for="{{ form.description.id_for_label }}" class="form-label">
+                        <i class="bi bi-card-text"></i>
+                        Deskripsi
+                    </label>
+                    {{ form.description }}
+                    {% if form.description.errors %}
+                        <div class="form-error">{{ form.description.errors }}</div>
+                    {% endif %}
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-warning" id="updateBtn">
+                        <i class="bi bi-check2-circle"></i>
+                        <span id="updateText">Update Draft</span>
+                    </button>
+
+                    <a href="{% url 'report_list' %}" class="btn btn-outline-danger">
+                        <i class="bi bi-arrow-left"></i>
+                        Kembali
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
 {% endblock %}
 
 {% block extra_js %}
 <script>
-    document.getElementById('editForm').addEventListener('submit', function() {
-        const btn = document.getElementById('updateBtn');
-        const text = document.getElementById('updateText');
-        btn.disabled = true;
-        text.textContent = 'Loading...';
+document.addEventListener('DOMContentLoaded', function () {
+    const form = document.getElementById('editForm');
+    const button = document.getElementById('updateBtn');
+    const text = document.getElementById('updateText');
+
+    if (!form || !button || !text) return;
+
+    form.addEventListener('submit', function () {
+        button.disabled = true;
+        text.textContent = 'Memperbarui...';
     });
+});
 </script>
 {% endblock %}

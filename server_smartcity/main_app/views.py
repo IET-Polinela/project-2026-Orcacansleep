@@ -66,6 +66,17 @@ class AdminStatusOnlyMixin(LoginRequiredMessageMixin):
 class HomeView(TemplateView):
     template_name = 'main_app/landing.html'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        context['total_reports'] = Report.objects.count()
+        context['reported_reports'] = Report.objects.filter(status='REPORTED').count()
+        context['verified_reports'] = Report.objects.filter(status='VERIFIED').count()
+        context['in_progress_reports'] = Report.objects.filter(status='IN_PROGRESS').count()
+        context['resolved_reports'] = Report.objects.filter(status='RESOLVED').count()
+
+        return context
+
 
 class ReportListView(ListView):
     model = Report
