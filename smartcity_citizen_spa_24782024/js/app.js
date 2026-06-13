@@ -82,6 +82,10 @@ async function loadSummaryStats() {
         setText("draftCount", draft);
         setText("reportedCount", processed);
         setText("resolvedCount", resolved);
+        setText("totalCountHero", reports.length);
+        setText("draftCountHero", draft);
+        setText("reportedCountHero", processed);
+        setText("resolvedCountHero", resolved);
 
     } catch (error) {
         console.error("Summary error:", error);
@@ -138,10 +142,18 @@ function showListLoading() {
     if (!container) return;
 
     container.innerHTML = `
-        <div class="card shadow-sm border-0">
-            <div class="card-body text-center py-5 text-muted">
-                <div class="spinner-border spinner-border-sm me-2" role="status"></div>
-                Memuat laporan...
+        <div class="card shadow-sm border-0 skeleton-card">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-start mb-3">
+                    <div class="w-75">
+                        <div class="skeleton-line w-50"></div>
+                        <div class="skeleton-line w-25"></div>
+                    </div>
+                    <div class="skeleton-pill"></div>
+                </div>
+                <div class="skeleton-line w-100"></div>
+                <div class="skeleton-line w-75"></div>
+                <div class="skeleton-progress"></div>
             </div>
         </div>
     `;
@@ -153,9 +165,14 @@ function showListError(message) {
     if (!container) return;
 
     container.innerHTML = `
-        <div class="alert alert-danger d-flex align-items-center gap-2">
-            <i class="bi bi-exclamation-triangle-fill fs-5"></i>
-            <div>${escapeHTML(message)}</div>
+        <div class="card shadow-sm border-0 error-card">
+            <div class="card-body d-flex align-items-center gap-3">
+                <div class="error-icon"><i class="bi bi-exclamation-triangle-fill"></i></div>
+                <div>
+                    <h6 class="fw-bold mb-1">Data belum dapat dimuat</h6>
+                    <p class="text-muted mb-0">${escapeHTML(message)}</p>
+                </div>
+            </div>
         </div>
     `;
 }
@@ -167,7 +184,7 @@ function renderList() {
 
     if (allReports.length === 0) {
         container.innerHTML = `
-            <div class="card shadow-sm border-0">
+            <div class="card shadow-sm border-0 empty-report-card">
                 <div class="card-body text-center py-5">
                     <i class="bi bi-cloud-fog2 empty-state-icon text-secondary"></i>
                     <h5 class="mt-3 fw-bold">Belum Ada Laporan</h5>
@@ -186,7 +203,10 @@ function renderList() {
         const description = escapeHTML(report.description || "-");
         const reporter = escapeHTML(report.reporter || "Warga Anonim");
         const reportId = escapeHTML(report.id);
-        const updatedAt = formatDate(report.updated_at || report.created_at);
+        const rawStatus = escapeHTML(report.status || "UNKNOWN");
+        const statusKey = String(report.status || "unknown").toLowerCase().replace(/_/g, "-");
+        const updatedAtRaw = report.updated_at || report.created_at || "";
+        const updatedAt = formatDate(updatedAtRaw);
 
         let actionButtons = "";
 
@@ -219,50 +239,76 @@ function renderList() {
         }
 
         return `
-            <div class="card shadow-sm mb-3 border-0 card-report">
+            <article class="card shadow-sm mb-3 border-0 card-report report-card-ui report-status-${statusKey}"
+                     data-report-card="${reportId}"
+                     data-report-status="${rawStatus}">
                 <div class="card-body">
+                    <div class="report-card-top">
+                        <div class="report-title-block">
+                            <div class="report-kicker-row">
+                                <span class="report-category-pill"><i class="bi bi-tag me-1"></i>${category}</span>
+                                <span class="report-location-pill"><i class="bi bi-geo-alt me-1"></i>${location}</span>
+                            </div>
 
-                    <div class="d-flex justify-content-between align-items-start">
-                        <div class="flex-grow-1 me-3">
-                            <h5 class="fw-bold mb-1">${title}</h5>
-                            <small class="text-muted">
-                                <i class="bi bi-tag me-1"></i>${category}
-                                &nbsp;|&nbsp;
-                                <i class="bi bi-geo-alt me-1"></i>${location}
-                            </small>
+                            <h5 class="report-title fw-bold mb-1">${title}</h5>
+
+                            <div class="report-meta-line">
+                                <span><i class="bi bi-hash"></i>${reportId}</span>
+                                <span>
+                                    <i class="bi bi-clock"></i>
+                                    <span class="feat-relative-timestamp" data-timestamp="${escapeHTML(updatedAtRaw)}">${updatedAt}</span>
+                                </span>
+                            </div>
                         </div>
 
-                        <span class="badge ${statusMeta.badgeClass} ${statusMeta.textClass}">
+                        <span class="badge status-pill ${statusMeta.badgeClass} ${statusMeta.textClass}">
                             ${statusMeta.label}
                         </span>
                     </div>
 
-                    <p class="mt-3 mb-2 text-secondary report-description">${description}</p>
+                    <div class="report-desc-wrapper">
+                        <p class="mt-3 mb-2 text-secondary report-description report-desc-preview">
+                            ${description}
+                        </p>
 
-                    <div class="progress mb-3" style="height:8px;" title="Progress: ${statusMeta.progress}%">
-                        <div
-                            class="progress-bar ${statusMeta.progressClass}"
-                            role="progressbar"
-                            style="width:${statusMeta.progress}%">
+                        <div class="report-desc-full" id="reportDesc${reportId}" aria-hidden="true">
+                            <p class="mb-0 text-secondary report-description">${description}</p>
+                        </div>
+
+                        <button
+                            type="button"
+                            class="btn btn-sm btn-outline-secondary btn-expand"
+                            data-expand-report
+                            aria-expanded="false"
+                            aria-controls="reportDesc${reportId}">
+                            <span data-expand-text>Lihat Detail</span>
+                            <i class="bi bi-chevron-down ms-1" data-expand-icon></i>
+                        </button>
+                    </div>
+
+                    <div class="report-progress-block" title="Progress: ${statusMeta.progress}%">
+                        <div class="report-progress-label">
+                            <span>Progress penanganan</span>
+                            <strong>${statusMeta.progress}%</strong>
+                        </div>
+                        <div class="progress report-progress">
+                            <div
+                                class="progress-bar ${statusMeta.progressClass}"
+                                role="progressbar"
+                                style="width:${statusMeta.progress}%">
+                            </div>
                         </div>
                     </div>
 
-                    <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
-                        <small class="text-muted">
+                    <div class="report-card-footer">
+                        <div class="report-footer-user">
                             <i class="bi bi-person-circle me-1"></i>${reporter}
-                        </small>
+                        </div>
 
-                        <small class="text-muted">
-                            <i class="bi bi-hash"></i>${reportId}
-                            &nbsp;|&nbsp;
-                            <i class="bi bi-clock me-1"></i>${updatedAt}
-                        </small>
+                        ${actionButtons ? `<div class="report-action-row">${actionButtons}</div>` : ""}
                     </div>
-
-                    ${actionButtons ? `<div class="mt-3 d-flex flex-wrap gap-2">${actionButtons}</div>` : ""}
-
                 </div>
-            </div>
+            </article>
         `;
     }).join("");
 }
