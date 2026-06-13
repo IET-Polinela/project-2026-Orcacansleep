@@ -8,7 +8,7 @@
 (function () {
     "use strict";
 
-    const BASE_URL = "http://103.151.63.84:8007/api";
+    const BASE_URL = "http://103.151.63.84:8007";
 
     window.API_BASE_URL = window.API_BASE_URL || BASE_URL;
 
