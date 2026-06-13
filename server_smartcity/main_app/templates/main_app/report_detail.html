@@ -18,6 +18,11 @@
 <section class="detail-page-layout">
     <article class="detail-main-card glass-card">
         <div class="card-body">
+            <div class="print-only print-header">
+                <h1>Silent Hill Portal — Detail Laporan</h1>
+                <p>Dokumen cetak laporan masalah kota</p>
+            </div>
+
             <div class="detail-header">
                 <div>
                     <span class="modal-kicker">Report Detail</span>
@@ -25,6 +30,18 @@
                 </div>
 
                 {% include 'main_app/partials/status_badge.html' with status=report.status %}
+            </div>
+
+            <div class="print-only print-meta-grid">
+                <div class="print-meta-item">
+                    <span>Pelapor</span>
+                    <strong>{{ report.reporter.username|default:"-" }}</strong>
+                </div>
+
+                <div class="print-meta-item">
+                    <span>Tanggal Cetak</span>
+                    <strong data-print-date>-</strong>
+                </div>
             </div>
 
             <div class="detail-info-grid">
@@ -40,7 +57,11 @@
 
                 <div class="detail-info-item">
                     <span>Tanggal Dibuat</span>
-                    <strong>{{ report.created_at|date:"d M Y, H:i" }}</strong>
+                    <strong
+                        class="timestamp"
+                        data-timestamp="{{ report.created_at|date:'c' }}">
+                        {{ report.created_at|date:"d M Y, H:i" }}
+                    </strong>
                 </div>
             </div>
 
@@ -49,14 +70,31 @@
                 <p>{{ report.description }}</p>
             </div>
 
+            <div class="print-only print-footer">
+                Dicetak dari Silent Hill Portal pada <span data-print-date>-</span>
+            </div>
+
             <div class="detail-actions">
+                <button
+                    type="button"
+                    class="btn btn-outline-light report-print-trigger"
+                    data-print-report>
+                    <i class="bi bi-printer"></i>
+                    Print
+                </button>
+
                 {% if user.is_authenticated and user.is_member and not user.is_admin and report.reporter_id == user.id and report.status == 'DRAFT' %}
                     <a href="{% url 'report_edit' report.pk %}" class="btn btn-info">
                         <i class="bi bi-pencil-square"></i>
                         Edit Draft
                     </a>
 
-                    <a href="{% url 'report_delete' report.pk %}" class="btn btn-outline-danger">
+                    <a
+                        href="{% url 'report_delete' report.pk %}"
+                        class="btn btn-outline-danger"
+                        data-confirm-delete
+                        data-confirm-title="Hapus Draft?"
+                        data-confirm-message="Kamu akan diarahkan ke halaman konfirmasi hapus laporan.">
                         <i class="bi bi-trash"></i>
                         Hapus Draft
                     </a>

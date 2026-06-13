@@ -184,6 +184,8 @@ function loadDashboardStats() {
             renderCategoryChart(data.category_labels, data.category_values);
             renderLatestTable('reportedTableBody', data.latest_reported, 'REPORTED');
             renderLatestTable('resolvedTableBody', data.latest_resolved, 'RESOLVED');
+
+            document.dispatchEvent(new CustomEvent('silentHill:timestamps-updated'));
         })
         .catch(function (error) {
             console.error('Dashboard error:', error);
@@ -369,7 +371,11 @@ function renderLatestTable(elementId, reports, emptyStatus) {
             <tr>
                 <td>
                     <strong>${escapeHTML(report.title)}</strong>
-                    <span class="table-date">${escapeHTML(report.created_at)}</span>
+                    <span
+                        class="table-date timestamp"
+                        data-timestamp="${escapeHTML(report.created_at || '')}">
+                        ${escapeHTML(report.created_at || '-')}
+                    </span>
                 </td>
                 <td>${escapeHTML(report.category)}</td>
                 <td>${escapeHTML(report.location)}</td>

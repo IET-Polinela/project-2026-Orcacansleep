@@ -87,38 +87,15 @@
     </nav>
 
     {% if messages %}
-        <div class="toast-stack" id="toastStack">
-            {% for message in messages %}
-                <div class="app-toast app-toast-{{ message.tags|default:'success' }}" data-toast>
-                    <div class="toast-icon">
-                        {% if message.tags == 'error' or message.tags == 'danger' %}
-                            <i class="bi bi-exclamation-triangle"></i>
-                        {% elif message.tags == 'warning' %}
-                            <i class="bi bi-exclamation-circle"></i>
-                        {% else %}
-                            <i class="bi bi-check-circle"></i>
-                        {% endif %}
-                    </div>
-
-                    <div class="toast-content">
-                        <strong>
-                            {% if message.tags == 'error' or message.tags == 'danger' %}
-                                Gagal
-                            {% elif message.tags == 'warning' %}
-                                Peringatan
-                            {% else %}
-                                Berhasil
-                            {% endif %}
-                        </strong>
-                        <span>{{ message }}</span>
-                    </div>
-
-                    <button type="button" class="toast-close" data-toast-close>
-                        <i class="bi bi-x"></i>
-                    </button>
-                </div>
-            {% endfor %}
-        </div>
+    <div id="djangoToastSource" hidden>
+        {% for message in messages %}
+            <div
+                data-toast-message="{{ message|escape }}"
+                data-toast-type="{{ message.tags|default:'info' }}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    </div>
     {% endif %}
 
     <main class="main-wrapper">

@@ -50,6 +50,10 @@
                     autocomplete="off"
                 >
             </div>
+
+            <small id="reportSearchCounter" class="report-search-counter" aria-live="polite">
+                Menampilkan 0 dari 0 laporan
+            </small>
         </div>
     </div>
 </section>
@@ -112,7 +116,10 @@
                                         <a
                                             href="{% url 'report_delete' report.pk %}"
                                             class="btn btn-sm btn-outline-danger"
-                                            title="Hapus draft laporan">
+                                            title="Hapus draft laporan"
+                                            data-confirm-delete
+                                            data-confirm-title="Hapus Draft?"
+                                            data-confirm-message="Kamu akan diarahkan ke halaman konfirmasi hapus laporan.">
                                             <i class="bi bi-trash"></i>
                                             Hapus
                                         </a>
@@ -197,9 +204,19 @@
                     <h2 id="reportDetailModalLabel">Detail Laporan</h2>
                 </div>
 
-                <button type="button" class="modal-close-btn" data-modal-close aria-label="Tutup modal">
-                    <i class="bi bi-x-lg"></i>
-                </button>
+                <div class="modal-header-actions">
+                    <button
+                        type="button"
+                        class="btn btn-sm btn-outline-light"
+                        id="modalPrintBtn">
+                        <i class="bi bi-printer"></i>
+                        Print
+                    </button>
+
+                    <button type="button" class="modal-close-btn" data-modal-close aria-label="Tutup modal">
+                        <i class="bi bi-x-lg"></i>
+                    </button>
+                </div>
             </div>
 
             <div class="report-modal-body">
@@ -229,7 +246,7 @@
 
                         <div class="detail-item">
                             <span>Tanggal Dibuat</span>
-                            <strong id="modalCreatedAt"></strong>
+                            <strong id="modalCreatedAt" class="timestamp"></strong>
                         </div>
                     </div>
 
@@ -373,7 +390,13 @@ document.addEventListener('DOMContentLoaded', function () {
 
             if (report.can_delete) {
                 actionButtons += `
-                    <a href="/delete/${report.id}/" class="btn btn-sm btn-outline-danger" title="Hapus draft laporan">
+                    <a
+                        href="/delete/${report.id}/"
+                        class="btn btn-sm btn-outline-danger"
+                        title="Hapus draft laporan"
+                        data-confirm-delete
+                        data-confirm-title="Hapus Draft?"
+                        data-confirm-message="Kamu akan diarahkan ke halaman konfirmasi hapus laporan.">
                         <i class="bi bi-trash"></i>
                         Hapus
                     </a>
@@ -469,12 +492,19 @@ document.addEventListener('DOMContentLoaded', function () {
                 return response.json();
             })
             .then(function (data) {
+                const modalCreatedAt = document.getElementById('modalCreatedAt');
+
                 document.getElementById('modalTitle').textContent = data.title;
                 document.getElementById('modalCategory').textContent = data.category;
                 document.getElementById('modalLocation').textContent = data.location;
-                document.getElementById('modalCreatedAt').textContent = data.created_at;
                 document.getElementById('modalDescription').textContent = data.description;
                 document.getElementById('modalStatus').innerHTML = getStatusBadge(data.status);
+
+                modalCreatedAt.textContent = data.created_at;
+                modalCreatedAt.dataset.timestamp = data.created_at;
+                delete modalCreatedAt.dataset.timestampProcessedValue;
+
+                document.dispatchEvent(new CustomEvent('silentHill:timestamps-updated'));
 
                 modalLoading.hidden = true;
                 modalContent.hidden = false;
